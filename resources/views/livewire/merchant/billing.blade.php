@@ -36,8 +36,8 @@ new #[Layout('layouts.app')] class extends Component {
     {
         return [
             'profile' => $this->profile(),
-            'packages' => config('banha.credit_packages'),
-            'plans' => config('banha.plans'),
+            'packages' => \App\Models\CreditPackage::active()->get(),
+            'plans' => \App\Models\Plan::active()->get(),
         ];
     }
 }; ?>
@@ -68,15 +68,15 @@ new #[Layout('layouts.app')] class extends Component {
         <div>
             <h2 class="font-semibold text-gray-900 mb-3">{{ __('Buy lead credits') }}</h2>
             <div class="grid gap-4 sm:grid-cols-3">
-                @foreach ($packages as $key => $pkg)
+                @foreach ($packages as $pkg)
                     <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col">
-                        <div class="font-semibold text-gray-900">{{ app()->getLocale() === 'ar' ? $pkg['name_ar'] : $pkg['name'] }}</div>
+                        <div class="font-semibold text-gray-900">{{ $pkg->label() }}</div>
                         <div class="mt-1 text-2xl font-bold text-gray-800">
-                            {{ $pkg['credits'] === null ? __('Unlimited') : $pkg['credits'] }}
-                            <span class="text-sm font-normal text-gray-500">{{ $pkg['credits'] === null ? '' : __('credits') }}</span>
+                            {{ $pkg->isUnlimited() ? __('Unlimited') : $pkg->credits }}
+                            <span class="text-sm font-normal text-gray-500">{{ $pkg->isUnlimited() ? '' : __('credits') }}</span>
                         </div>
-                        <div class="mt-1 text-indigo-600 font-semibold">{{ $pkg['price'] }} {{ __('EGP') }}</div>
-                        <button wire:click="buy('{{ $key }}')"
+                        <div class="mt-1 text-indigo-600 font-semibold">{{ $pkg->price }} {{ __('EGP') }}</div>
+                        <button wire:click="buy('{{ $pkg->key }}')"
                                 class="mt-4 w-full px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-md hover:bg-indigo-700">
                             {{ __('Buy') }}
                         </button>
@@ -89,18 +89,16 @@ new #[Layout('layouts.app')] class extends Component {
         <div>
             <h2 class="font-semibold text-gray-900 mb-3">{{ __('Subscription plans') }}</h2>
             <div class="grid gap-4 sm:grid-cols-3">
-                @foreach ($plans as $key => $plan)
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col
-                                {{ $profile->subscription_tier === $plan['tier'] ? 'ring-2 ring-indigo-500' : '' }}">
-                        <div class="font-semibold text-gray-900">{{ app()->getLocale() === 'ar' ? $plan['name_ar'] : $plan['name'] }}</div>
-                        <div class="mt-1 text-indigo-600 font-semibold">{{ $plan['price'] }} {{ __('EGP') }}/{{ __('mo') }}</div>
-                        <button wire:click="subscribe('{{ $key }}')"
-                                @disabled($profile->subscription_tier === $plan['tier'])
+                @foreach ($plans as $plan)
+                    @php($current = $profile->subscription_tier === $plan->tier)
+                    <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col {{ $current ? 'ring-2 ring-indigo-500' : '' }}">
+                        <div class="font-semibold text-gray-900">{{ $plan->label() }}</div>
+                        <div class="mt-1 text-indigo-600 font-semibold">{{ $plan->price }} {{ __('EGP') }}/{{ __('mo') }}</div>
+                        <button wire:click="subscribe('{{ $plan->key }}')"
+                                @disabled($current)
                                 class="mt-4 w-full px-4 py-2 text-sm font-semibold rounded-md
-                                       {{ $profile->subscription_tier === $plan['tier']
-                                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                          : 'bg-gray-800 text-white hover:bg-gray-900' }}">
-                            {{ $profile->subscription_tier === $plan['tier'] ? __('Current plan') : __('Subscribe') }}
+                                       {{ $current ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gray-800 text-white hover:bg-gray-900' }}">
+                            {{ $current ? __('Current plan') : __('Subscribe') }}
                         </button>
                     </div>
                 @endforeach

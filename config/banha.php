@@ -2,25 +2,8 @@
 
 return [
 
-    /*
-    | Lead-credit packages. Price in EGP. `credits = null` means unlimited
-    | (Pro) which is granted as a subscription tier rather than a balance.
-    */
-    'credit_packages' => [
-        'starter' => ['name' => 'Starter', 'name_ar' => 'المبتدئ', 'credits' => 100, 'price' => 299],
-        'growth' => ['name' => 'Growth', 'name_ar' => 'النمو', 'credits' => 500, 'price' => 999],
-        'pro' => ['name' => 'Pro', 'name_ar' => 'المحترف', 'credits' => null, 'price' => 2999, 'grants_tier' => 'premium'],
-    ],
-
-    /*
-    | Subscription plans. `tier` matches merchant_profiles.subscription_tier.
-    | Subscription merchants submit offers without consuming credits.
-    */
-    'plans' => [
-        'basic' => ['name' => 'Basic', 'name_ar' => 'أساسي', 'tier' => 'basic', 'price' => 299],
-        'gold' => ['name' => 'Gold', 'name_ar' => 'ذهبي', 'tier' => 'gold', 'price' => 799],
-        'premium' => ['name' => 'Premium', 'name_ar' => 'بريميوم', 'tier' => 'premium', 'price' => 1999],
-    ],
+    // Lead-credit packages and subscription plans are now DB-managed (admin → Plans).
+    // See the `credit_packages` and `plans` tables + Database\Seeders\PlanSeeder.
 
     'currency' => 'EGP',
 

@@ -1,6 +1,6 @@
 @php
-    $packages = config('banha.credit_packages');
-    $plans = config('banha.plans');
+    $packages = \App\Models\CreditPackage::active()->get();
+    $plans = \App\Models\Plan::active()->get();
 @endphp
 
 <x-marketing-layout :title="__('Pricing')" description="باقات نقاط العملاء وخطط الاشتراك الشهري للتجار على Tanafos.">
@@ -14,8 +14,8 @@
     <section class="max-w-6xl mx-auto px-6 py-8">
         <h2 class="text-2xl font-bold mb-6 text-center">باقات نقاط العملاء</h2>
         <div class="grid gap-6 md:grid-cols-3">
-            @foreach ($packages as $key => $pkg)
-                @php($featured = $key === 'growth')
+            @foreach ($packages as $pkg)
+                @php($featured = $pkg->key === 'growth')
                 <div @class([
                     'rounded-2xl p-7 ring-1 flex flex-col',
                     'bg-indigo-600 text-white ring-indigo-600 shadow-xl shadow-indigo-600/20 md:-translate-y-2' => $featured,
@@ -24,12 +24,12 @@
                     @if ($featured)
                         <span class="self-start px-3 py-1 rounded-full bg-white/20 text-xs font-semibold mb-3">الأكثر شيوعًا</span>
                     @endif
-                    <div class="font-bold text-lg">{{ $pkg['name_ar'] }}</div>
+                    <div class="font-bold text-lg">{{ $pkg->name_ar }}</div>
                     <div class="mt-3 text-4xl font-extrabold">
-                        {{ $pkg['credits'] === null ? '∞' : $pkg['credits'] }}
-                        <span class="text-base font-medium {{ $featured ? 'text-indigo-100' : 'text-gray-500' }}">{{ $pkg['credits'] === null ? 'غير محدود' : 'نقطة' }}</span>
+                        {{ $pkg->isUnlimited() ? '∞' : $pkg->credits }}
+                        <span class="text-base font-medium {{ $featured ? 'text-indigo-100' : 'text-gray-500' }}">{{ $pkg->isUnlimited() ? 'غير محدود' : 'نقطة' }}</span>
                     </div>
-                    <div class="mt-2 text-2xl font-bold {{ $featured ? 'text-white' : 'text-indigo-600' }}">{{ $pkg['price'] }} <span class="text-sm font-medium">ج.م</span></div>
+                    <div class="mt-2 text-2xl font-bold {{ $featured ? 'text-white' : 'text-indigo-600' }}">{{ $pkg->price }} <span class="text-sm font-medium">ج.م</span></div>
                     <a href="{{ route('register') }}" @class([
                         'mt-6 text-center px-5 py-2.5 rounded-full font-semibold',
                         'bg-white text-indigo-700 hover:bg-indigo-50' => $featured,
@@ -48,8 +48,8 @@
             <div class="grid gap-6 md:grid-cols-3">
                 @foreach ($plans as $plan)
                     <div class="bg-white rounded-2xl p-7 ring-1 ring-gray-100 flex flex-col">
-                        <div class="font-bold text-lg">{{ $plan['name_ar'] }}</div>
-                        <div class="mt-3 text-3xl font-extrabold text-gray-900">{{ $plan['price'] }} <span class="text-base font-medium text-gray-500">ج.م/شهر</span></div>
+                        <div class="font-bold text-lg">{{ $plan->name_ar }}</div>
+                        <div class="mt-3 text-3xl font-extrabold text-gray-900">{{ $plan->price }} <span class="text-base font-medium text-gray-500">ج.م/شهر</span></div>
                         <ul class="mt-5 space-y-2 text-sm text-gray-700 flex-1">
                             <li class="flex items-center gap-2"><span class="text-indigo-600"><x-icon name="check" class="w-5 h-5" /></span> عروض غير محدودة</li>
                             <li class="flex items-center gap-2"><span class="text-indigo-600"><x-icon name="check" class="w-5 h-5" /></span> أولوية في المطابقة</li>

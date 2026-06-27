@@ -16,6 +16,12 @@ class BillingTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\PlanSeeder::class); // plans/packages are DB-managed
+    }
+
     public function test_buying_a_package_adds_credits_and_logs_a_transaction(): void
     {
         $merchant = MerchantProfile::factory()->create(['credits_balance' => 0]);
