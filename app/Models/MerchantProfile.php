@@ -68,6 +68,11 @@ class MerchantProfile extends Model
         return $this->hasMany(CreditTransaction::class)->latest();
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class)->latest();
+    }
+
     /** Subscription merchants submit without spending credits; otherwise need ≥1. */
     public function onSubscription(): bool
     {

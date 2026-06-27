@@ -8,6 +8,18 @@ return [
     'currency' => 'EGP',
 
     /*
+    | Manual payment — merchants transfer to this number via InstaPay or
+    | Vodafone Cash, submit proof, and an admin approves to apply the purchase.
+    */
+    'payment' => [
+        'number' => env('PAYMENT_NUMBER', '01022345504'),
+        'methods' => [
+            'instapay' => ['name' => 'InstaPay', 'name_ar' => 'إنستاباي'],
+            'vodafone_cash' => ['name' => 'Vodafone Cash', 'name_ar' => 'فودافون كاش'],
+        ],
+    ],
+
+    /*
     | Gamification: merchant levels by completed deals. Highest threshold met wins.
     */
     'levels' => [

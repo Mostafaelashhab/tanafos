@@ -112,185 +112,214 @@ new #[Layout('layouts.app')] class extends Component {
     }
 }; ?>
 
-<div class="py-10">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        @if (session('status'))
-            <div class="rounded-md bg-green-50 p-4 text-sm text-green-700">{{ session('status') }}</div>
+<div class="max-w-2xl mx-auto px-4 py-5 space-y-5">
+    @if (session('status'))
+        <div class="rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-700 flex items-center gap-2">
+            <x-icon name="check" class="w-5 h-5 shrink-0" /> {{ session('status') }}
+        </div>
+    @endif
+
+    {{-- Request hero --}}
+    <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
+        <div class="flex items-start gap-3">
+            <span class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
+                <x-icon :name="\App\Support\CategoryFields::icon($request->category)" class="w-6 h-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <h1 class="font-extrabold text-xl text-gray-900 leading-snug">{{ $request->title }}</h1>
+                <div class="text-sm text-gray-400">{{ $request->category->label() }}</div>
+            </div>
+            <x-request-status-badge :status="$request->status" class="shrink-0" />
+        </div>
+
+        {{-- Meta chips --}}
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+            @if ($budget)
+                <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-700 rounded-full px-3 py-1.5 font-semibold"><x-icon name="currency" class="w-4 h-4" /> {{ $budget }}</span>
+            @endif
+            @if ($request->city)
+                <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="map-pin" class="w-4 h-4" /> {{ $request->city }}</span>
+            @endif
+            <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5">{{ __(ucfirst($request->condition)) }}</span>
+            <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="clock" class="w-4 h-4" /> {{ __(ucfirst($request->urgency)) }}</span>
+            @if ($request->warranty_required)
+                <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="shield-check" class="w-4 h-4" /> {{ __('Warranty') }}</span>
+            @endif
+        </div>
+
+        @if ($request->description)
+            <p class="mt-4 text-gray-700 text-sm whitespace-pre-line leading-relaxed">{{ $request->description }}</p>
         @endif
 
-        <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-                <div>
-                    <h1 class="font-semibold text-2xl text-gray-900">{{ $request->title }}</h1>
-                    <div class="mt-1 text-sm text-gray-500">{{ $request->category->label() }}</div>
+        @if (! empty($request->specifications))
+            <div class="mt-4 rounded-2xl bg-brand-50/50 p-4">
+                <div class="text-xs font-semibold text-brand-700 flex items-center gap-1 mb-2">
+                    <x-icon name="sparkles" class="w-4 h-4" /> {{ __('Specifications') }}
                 </div>
-                <x-request-status-badge :status="$request->status" />
-            </div>
-
-            <dl class="mt-6 grid grid-cols-2 gap-4 text-sm">
-                @if ($budget)
-                    <div><dt class="text-gray-500">{{ __('Budget') }}</dt><dd class="text-gray-900">{{ $budget }}</dd></div>
-                @endif
-                @if ($request->city)
-                    <div><dt class="text-gray-500">{{ __('City') }}</dt><dd class="text-gray-900">{{ $request->city }}</dd></div>
-                @endif
-                <div><dt class="text-gray-500">{{ __('Condition') }}</dt><dd class="text-gray-900">{{ __(ucfirst($request->condition)) }}</dd></div>
-                <div><dt class="text-gray-500">{{ __('Urgency') }}</dt><dd class="text-gray-900">{{ __(ucfirst($request->urgency)) }}</dd></div>
-                <div><dt class="text-gray-500">{{ __('Payment method') }}</dt><dd class="text-gray-900">{{ __(ucfirst($request->payment_method)) }}</dd></div>
-                <div><dt class="text-gray-500">{{ __('Warranty required') }}</dt><dd class="text-gray-900">{{ $request->warranty_required ? __('Yes') : __('No') }}</dd></div>
-            </dl>
-
-            @if ($request->description)
-                <div class="mt-6">
-                    <h2 class="text-sm font-medium text-gray-500">{{ __('Additional details') }}</h2>
-                    <p class="mt-1 text-gray-800 whitespace-pre-line">{{ $request->description }}</p>
-                </div>
-            @endif
-
-            @if ($request->attachments->isNotEmpty())
-                <div class="mt-6 flex flex-wrap gap-3">
-                    @foreach ($request->attachments as $attachment)
-                        <img src="{{ $attachment->url() }}" class="h-24 w-24 rounded object-cover border" />
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+                    @foreach ($request->specifications as $key => $value)
+                        <div class="flex justify-between gap-2">
+                            <span class="text-gray-400">{{ __(\Illuminate\Support\Str::headline($key)) }}</span>
+                            <span class="text-gray-800 font-medium text-end">{{ is_array($value) ? implode(', ', $value) : $value }}</span>
+                        </div>
                     @endforeach
                 </div>
-            @endif
-
-            @if (! empty($request->specifications))
-                <div class="mt-6">
-                    <h2 class="text-sm font-medium text-gray-500">{{ __('Specifications') }} <span class="text-xs text-brand-400">✨ {{ __('AI') }}</span></h2>
-                    <dl class="mt-2 grid grid-cols-2 gap-2 text-sm">
-                        @foreach ($request->specifications as $key => $value)
-                            <div class="flex justify-between gap-2 border-b border-gray-100 py-1">
-                                <dt class="text-gray-500">{{ $key }}</dt>
-                                <dd class="text-gray-800 text-end">{{ is_array($value) ? implode(', ', $value) : $value }}</dd>
-                            </div>
-                        @endforeach
-                    </dl>
-                </div>
-            @endif
-        </div>
-
-        {{-- Actions --}}
-        <div class="flex items-center justify-between">
-            <a href="{{ route('requests.index') }}" wire:navigate class="text-sm text-gray-600 underline">{{ __('Back to requests') }}</a>
-            <div class="flex items-center gap-3">
-                @can('update', $request)
-                    @if ($request->isDraft())
-                        <x-primary-button wire:click="publish">{{ __('Publish') }}</x-primary-button>
-                    @endif
-                    <a href="{{ route('requests.edit', $request) }}" wire:navigate
-                       class="text-sm text-brand-600 underline">{{ __('Edit') }}</a>
-                @endcan
-                @can('delete', $request)
-                    <button wire:click="delete" wire:confirm="{{ __('Delete this request?') }}"
-                            class="text-sm text-red-600 underline">{{ __('Delete') }}</button>
-                @endcan
-            </div>
-        </div>
-
-{{-- Offers comparison --}}
-        @php($offers = $this->offers())
-        <div class="bg-white shadow-soft rounded-2xl">
-            <div class="px-6 py-4 border-b flex items-center justify-between">
-                <h2 class="font-semibold text-gray-900">{{ __('Offers') }} ({{ $offers->count() }})</h2>
-                @if ($offers->count() > 1)
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="text-gray-500">{{ __('Sort by') }}</span>
-                        <select wire:model.live="sort" class="text-sm border-gray-300 rounded-md focus:border-brand-500 focus:ring-brand-500">
-                            <option value="price">{{ __('Lowest price') }}</option>
-                            <option value="delivery">{{ __('Fastest delivery') }}</option>
-                            <option value="rating">{{ __('Top rated') }}</option>
-                        </select>
-                    </div>
-                @endif
-            </div>
-
-            <div class="divide-y">
-                @forelse ($offers as $offer)
-                    <div class="p-6 flex items-start justify-between gap-4">
-                        <div>
-                            <div class="font-medium text-gray-900">{{ $offer->merchantProfile->business_name }}</div>
-                            <div class="mt-1 text-sm text-gray-500 flex flex-wrap gap-x-4 gap-y-1">
-                                @if ($offer->merchantProfile->rating_avg > 0)
-                                    <span>★ {{ $offer->merchantProfile->rating_avg }}</span>
-                                @endif
-                                @if ($offer->delivery_days !== null)
-                                    <span>{{ __('Delivery: :n days', ['n' => $offer->delivery_days]) }}</span>
-                                @endif
-                                @if ($offer->warranty)
-                                    <span>{{ __('Warranty') }}: {{ $offer->warranty }}</span>
-                                @endif
-                                @if ($offer->lead?->distance_km !== null)
-                                    <span>{{ $offer->lead->distance_km }} {{ __('km away') }}</span>
-                                @endif
-                            </div>
-                            @if ($offer->description)
-                                <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">{{ $offer->description }}</p>
-                            @endif
-                        </div>
-                        <div class="text-end shrink-0">
-                            <div class="text-xl font-semibold text-brand-600">{{ $offer->price }} {{ $offer->currency }}</div>
-                            @if ($offer->negotiation_enabled)
-                                <div class="text-xs text-green-600 mt-1">{{ __('Negotiable') }}</div>
-                            @endif
-
-                            @if ($offer->isAccepted())
-                                <div class="mt-2 text-xs font-semibold text-green-700">✓ {{ __('Winner') }}</div>
-                            @endif
-
-                            <div class="mt-3 flex flex-col items-stretch gap-2">
-                                <button wire:click="chat({{ $offer->id }})"
-                                        class="text-sm text-brand-600 underline">{{ __('Chat') }}</button>
-                                @if (! $request->isCompleted())
-                                    <x-primary-button wire:click="selectWinner({{ $offer->id }})"
-                                                      wire:confirm="{{ __('Select this offer as the winner?') }}">
-                                        {{ __('Select winner') }}
-                                    </x-primary-button>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="p-6 text-center text-gray-500">{{ __('No offers yet. Merchants are reviewing your request.') }}</div>
-                @endforelse
-            </div>
-        </div>
-
-        {{-- Review the winning merchant --}}
-        @if ($request->isCompleted())
-            <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
-                @if ($request->review)
-                    <h2 class="font-semibold text-gray-900">{{ __('Your review') }}</h2>
-                    <div class="mt-2 text-amber-500">{{ str_repeat('★', $request->review->rating) }}{{ str_repeat('☆', 5 - $request->review->rating) }}</div>
-                    @if ($request->review->comment)
-                        <p class="mt-2 text-sm text-gray-700">{{ $request->review->comment }}</p>
-                    @endif
-                @else
-                    <h2 class="font-semibold text-gray-900 mb-4">
-                        {{ __('Rate :merchant', ['merchant' => $request->selectedOffer->merchantProfile->business_name]) }}
-                    </h2>
-                    <form wire:submit="submitReview" class="space-y-4">
-                        <div>
-                            <x-input-label :value="__('Rating')" />
-                            <select wire:model="rating" class="mt-1 border-gray-300 rounded-md focus:border-brand-500 focus:ring-brand-500">
-                                @for ($i = 5; $i >= 1; $i--)
-                                    <option value="{{ $i }}">{{ $i }} ★</option>
-                                @endfor
-                            </select>
-                            <x-input-error :messages="$errors->get('rating')" class="mt-2" />
-                        </div>
-                        <div>
-                            <x-input-label for="comment" :value="__('Comment')" />
-                            <textarea wire:model="comment" id="comment" rows="3"
-                                      class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm"></textarea>
-                            <x-input-error :messages="$errors->get('comment')" class="mt-2" />
-                        </div>
-                        <div class="flex justify-end">
-                            <x-primary-button>{{ __('Submit review') }}</x-primary-button>
-                        </div>
-                    </form>
-                @endif
             </div>
         @endif
+
+        @if ($request->attachments->isNotEmpty())
+            <div class="mt-4 flex flex-wrap gap-2">
+                @foreach ($request->attachments as $attachment)
+                    <img src="{{ $attachment->url() }}" class="h-24 w-24 rounded-2xl object-cover" />
+                @endforeach
+            </div>
+        @endif
+
+        {{-- Owner actions --}}
+        @can('update', $request)
+            <div class="mt-5 pt-4 border-t border-gray-50 flex items-center gap-2">
+                @if ($request->isDraft())
+                    <x-primary-button wire:click="publish">{{ __('Publish') }}</x-primary-button>
+                @endif
+                <a href="{{ route('requests.edit', $request) }}" wire:navigate
+                   class="inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm text-gray-600 bg-gray-100 hover:bg-gray-200">
+                    <x-icon name="pencil" class="w-4 h-4" /> {{ __('Edit') }}
+                </a>
+                <div class="flex-1"></div>
+                @can('delete', $request)
+                    <button wire:click="delete" wire:confirm="{{ __('Delete this request?') }}"
+                            class="inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm text-red-600 hover:bg-red-50">
+                        <x-icon name="trash" class="w-4 h-4" />
+                    </button>
+                @endcan
+            </div>
+        @endcan
     </div>
+
+    {{-- Offers --}}
+    @php($offers = $this->offers())
+    <div class="flex items-center justify-between px-1">
+        <h2 class="font-bold text-gray-900">{{ __('Offers') }} <span class="text-brand-600">({{ $offers->count() }})</span></h2>
+    </div>
+
+    {{-- Sort segmented control --}}
+    @if ($offers->count() > 1)
+        <div class="flex gap-1 bg-gray-100 rounded-full p-1 text-sm">
+            @foreach (['price' => __('Lowest price'), 'delivery' => __('Fastest delivery'), 'rating' => __('Top rated')] as $key => $label)
+                <button wire:click="$set('sort', '{{ $key }}')"
+                        @class([
+                            'flex-1 rounded-full py-1.5 font-medium transition',
+                            'bg-white text-brand-700 shadow-sm' => $sort === $key,
+                            'text-gray-500' => $sort !== $key,
+                        ])>{{ $label }}</button>
+            @endforeach
+        </div>
+    @endif
+
+    <div class="space-y-3">
+        @forelse ($offers as $offer)
+            <div @class([
+                'bg-white shadow-soft rounded-2xl p-4',
+                'ring-2 ring-emerald-400' => $offer->isAccepted(),
+            ])>
+                @if ($offer->isAccepted())
+                    <div class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-full px-2.5 py-1 mb-3">
+                        <x-icon name="check" class="w-4 h-4" /> {{ __('Winner') }}
+                    </div>
+                @endif
+
+                <div class="flex items-start gap-3">
+                    <span class="w-11 h-11 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold shrink-0">
+                        {{ mb_substr($offer->merchantProfile->business_name, 0, 1) }}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <div class="font-semibold text-gray-900 truncate">{{ $offer->merchantProfile->business_name }}</div>
+                        <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
+                            @if ($offer->merchantProfile->rating_avg > 0)
+                                <span class="inline-flex items-center gap-1 text-amber-500"><x-icon name="star" class="w-3.5 h-3.5" /> {{ $offer->merchantProfile->rating_avg }}</span>
+                            @endif
+                            @if ($offer->delivery_days !== null)
+                                <span class="inline-flex items-center gap-1"><x-icon name="clock" class="w-3.5 h-3.5" /> {{ __('Delivery: :n days', ['n' => $offer->delivery_days]) }}</span>
+                            @endif
+                            @if ($offer->warranty)
+                                <span class="inline-flex items-center gap-1"><x-icon name="shield-check" class="w-3.5 h-3.5" /> {{ $offer->warranty }}</span>
+                            @endif
+                            @if ($offer->lead?->distance_km !== null)
+                                <span class="inline-flex items-center gap-1"><x-icon name="map-pin" class="w-3.5 h-3.5" /> {{ $offer->lead->distance_km }} {{ __('km away') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="text-end shrink-0">
+                        <div class="text-xl font-extrabold text-brand-600">{{ $offer->price }}</div>
+                        <div class="text-[10px] text-gray-400">{{ __('EGP') }}</div>
+                    </div>
+                </div>
+
+                @if ($offer->description)
+                    <p class="mt-3 text-sm text-gray-600 whitespace-pre-line">{{ $offer->description }}</p>
+                @endif
+
+                <div class="mt-3 flex items-center gap-2">
+                    @if ($offer->negotiation_enabled)
+                        <span class="text-xs text-emerald-600 font-medium me-auto">{{ __('Negotiable') }}</span>
+                    @else
+                        <span class="me-auto"></span>
+                    @endif
+                    <button wire:click="chat({{ $offer->id }})"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-full text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">
+                        <x-icon name="chat" class="w-4 h-4" /> {{ __('Chat') }}
+                    </button>
+                    @if (! $request->isCompleted())
+                        <x-primary-button wire:click="selectWinner({{ $offer->id }})"
+                                          wire:confirm="{{ __('Select this offer as the winner?') }}">
+                            {{ __('Select') }}
+                        </x-primary-button>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div class="bg-white shadow-soft rounded-2xl p-10 text-center">
+                <span class="inline-flex w-14 h-14 rounded-2xl bg-brand-50 text-brand-500 items-center justify-center mb-3">
+                    <x-icon name="inbox" class="w-7 h-7" />
+                </span>
+                <p class="text-gray-500">{{ __('No offers yet. Merchants are reviewing your request.') }}</p>
+            </div>
+        @endforelse
+    </div>
+
+    {{-- Review the winning merchant --}}
+    @if ($request->isCompleted())
+        <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
+            @if ($request->review)
+                <h2 class="font-bold text-gray-900">{{ __('Your review') }}</h2>
+                <div class="mt-2 text-amber-500 text-lg tracking-wide">{{ str_repeat('★', $request->review->rating) }}{{ str_repeat('☆', 5 - $request->review->rating) }}</div>
+                @if ($request->review->comment)
+                    <p class="mt-2 text-sm text-gray-700">{{ $request->review->comment }}</p>
+                @endif
+            @else
+                <h2 class="font-bold text-gray-900 mb-4">
+                    {{ __('Rate :merchant', ['merchant' => $request->selectedOffer->merchantProfile->business_name]) }}
+                </h2>
+                <form wire:submit="submitReview" class="space-y-4">
+                    <div>
+                        <x-input-label :value="__('Rating')" />
+                        <div class="mt-2 flex gap-2">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <button type="button" wire:click="$set('rating', {{ $i }})"
+                                        class="text-3xl {{ $rating >= $i ? 'text-amber-400' : 'text-gray-200' }}">★</button>
+                            @endfor
+                        </div>
+                        <x-input-error :messages="$errors->get('rating')" class="mt-2" />
+                    </div>
+                    <div>
+                        <x-input-label for="comment" :value="__('Comment')" />
+                        <textarea wire:model="comment" id="comment" rows="3"
+                                  class="block mt-1 w-full border-gray-200 focus:border-brand-500 focus:ring-brand-500 rounded-lg"></textarea>
+                        <x-input-error :messages="$errors->get('comment')" class="mt-2" />
+                    </div>
+                    <x-primary-button class="w-full">{{ __('Submit review') }}</x-primary-button>
+                </form>
+            @endif
+        </div>
+    @endif
 </div>

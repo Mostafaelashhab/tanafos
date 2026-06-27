@@ -50,9 +50,10 @@ class AiEnrichmentService
      */
     public function apply(Request $request, array $data): bool
     {
-        $request->forceFill([
-            'specifications' => $data['specifications'] ?? null,
-        ]);
+        // Don't overwrite specs the buyer entered in the wizard.
+        if (empty($request->specifications) && ! empty($data['specifications'])) {
+            $request->forceFill(['specifications' => $data['specifications']]);
+        }
 
         if (empty($request->budget_min) && ! empty($data['suggested_budget_min'])) {
             $request->budget_min = (int) $data['suggested_budget_min'];

@@ -97,6 +97,41 @@ class RequestManagementTest extends TestCase
             ->assertHasErrors(['form.budget_max']);
     }
 
+    public function test_wizard_steps_require_category_then_title(): void
+    {
+        $category = Category::factory()->create();
+
+        $c = Volt::actingAs($this->buyer())->test('requests.create');
+
+        // Step 1 → can't advance without a category.
+        $c->call('next')->assertHasErrors('form.category_id');
+        $this->assertSame(1, $c->get('step'));
+
+        // Pick a category → advance to step 2.
+        $c->call('selectCategory', $category->id)->call('next');
+        $this->assertSame(2, $c->get('step'));
+
+        // Step 2 → can't advance without a title.
+        $c->set('form.title', '')->call('next')->assertHasErrors('form.title');
+    }
+
+    public function test_category_specifications_are_saved(): void
+    {
+        $buyer = $this->buyer();
+        $category = Category::factory()->create();
+
+        Volt::actingAs($buyer)->test('requests.create')
+            ->set('form.category_id', $category->id)
+            ->set('form.title', 'آيفون مستعمل')
+            ->set('form.specifications.brand', 'Apple')
+            ->set('form.specifications.storage', '256GB')
+            ->call('save', false)
+            ->assertRedirect();
+
+        $request = Request::firstWhere('title', 'آيفون مستعمل');
+        $this->assertSame(['brand' => 'Apple', 'storage' => '256GB'], $request->specifications);
+    }
+
     public function test_buyer_cannot_view_another_buyers_request(): void
     {
         $owner = $this->buyer();

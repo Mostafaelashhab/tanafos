@@ -23,6 +23,8 @@ class Notifications
             'NewOffer' => __('New offer on :title', ['title' => $data['title'] ?? '']),
             'OfferAccepted' => __('You won the deal: :title', ['title' => $data['title'] ?? '']),
             'NewMessage' => __('New message from :sender', ['sender' => $data['sender'] ?? '']),
+            'PaymentApproved' => __('Payment approved: :item', ['item' => $data['item'] ?? '']),
+            'PaymentRejected' => __('Payment not verified'),
             default => __('Notification'),
         };
     }
@@ -34,6 +36,8 @@ class Notifications
             'NewOffer' => 'shopping-bag',
             'OfferAccepted' => 'trophy',
             'NewMessage' => 'chat',
+            'PaymentApproved' => 'badge-check',
+            'PaymentRejected' => 'x-mark',
             default => 'bell',
         };
     }
@@ -55,6 +59,7 @@ class Notifications
             'NewMessage' => isset($data['conversation_id'])
                 ? route('conversations.show', $data['conversation_id'])
                 : route('dashboard'),
+            'PaymentApproved', 'PaymentRejected' => route('merchant.billing'),
             default => route('dashboard'),
         };
     }

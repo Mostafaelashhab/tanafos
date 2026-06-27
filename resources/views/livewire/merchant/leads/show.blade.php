@@ -66,115 +66,127 @@ new #[Layout('layouts.app')] class extends Component {
     }
 }; ?>
 
-<div class="py-10">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        @php($request = $lead->request)
+<div class="max-w-2xl mx-auto px-4 py-5 space-y-5">
+    @php($request = $lead->request)
 
-        <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-                <div>
-                    <h1 class="font-semibold text-2xl text-gray-900">{{ $request->title }}</h1>
-                    <div class="mt-1 text-sm text-gray-500">{{ $request->category->label() }}</div>
-                </div>
-                <div class="text-end">
-                    <div class="text-xs text-gray-400">{{ __('Match') }}</div>
-                    <div class="text-2xl font-semibold text-brand-600">{{ $lead->quality_score }}%</div>
-                </div>
+    {{-- Request summary --}}
+    <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
+        <div class="flex items-start gap-3">
+            <span class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
+                <x-icon :name="\App\Support\CategoryFields::icon($request->category)" class="w-6 h-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <h1 class="font-extrabold text-xl text-gray-900 leading-snug">{{ $request->title }}</h1>
+                <div class="text-sm text-gray-400">{{ $request->category->label() }}</div>
             </div>
-
-            <dl class="mt-6 grid grid-cols-2 gap-4 text-sm">
-                @if ($budget)
-                    <div><dt class="text-gray-500">{{ __('Budget') }}</dt><dd class="text-gray-900">{{ $budget }}</dd></div>
-                @endif
-                @if ($request->city)
-                    <div><dt class="text-gray-500">{{ __('City') }}</dt><dd class="text-gray-900">{{ $request->city }}</dd></div>
-                @endif
-                @if ($lead->distance_km !== null)
-                    <div><dt class="text-gray-500">{{ __('Distance') }}</dt><dd class="text-gray-900">{{ $lead->distance_km }} {{ __('km away') }}</dd></div>
-                @endif
-                <div><dt class="text-gray-500">{{ __('Condition') }}</dt><dd class="text-gray-900">{{ __(ucfirst($request->condition)) }}</dd></div>
-                <div><dt class="text-gray-500">{{ __('Urgency') }}</dt><dd class="text-gray-900">{{ __(ucfirst($request->urgency)) }}</dd></div>
-            </dl>
-
-            @if ($request->description)
-                <div class="mt-6">
-                    <h2 class="text-sm font-medium text-gray-500">{{ __('Additional details') }}</h2>
-                    <p class="mt-1 text-gray-800 whitespace-pre-line">{{ $request->description }}</p>
-                </div>
-            @endif
-
-            @if ($request->attachments->isNotEmpty())
-                <div class="mt-6 flex flex-wrap gap-3">
-                    @foreach ($request->attachments as $attachment)
-                        <img src="{{ $attachment->url() }}" class="h-24 w-24 rounded object-cover border" />
-                    @endforeach
-                </div>
-            @endif
+            <div class="text-center shrink-0 bg-brand-50 rounded-2xl px-3 py-1.5">
+                <div class="text-lg font-extrabold text-brand-600 leading-none">{{ $lead->quality_score }}%</div>
+                <div class="text-[10px] text-brand-400 mt-0.5">{{ __('Match') }}</div>
+            </div>
         </div>
 
-<a href="{{ route('merchant.leads.index') }}" wire:navigate class="inline-block text-sm text-gray-600 underline">{{ __('Back to leads') }}</a>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+            @if ($budget)
+                <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-700 rounded-full px-3 py-1.5 font-semibold"><x-icon name="currency" class="w-4 h-4" /> {{ $budget }}</span>
+            @endif
+            @if ($request->city)
+                <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="map-pin" class="w-4 h-4" /> {{ $request->city }}</span>
+            @endif
+            @if ($lead->distance_km !== null)
+                <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="map-pin" class="w-4 h-4" /> {{ $lead->distance_km }} {{ __('km away') }}</span>
+            @endif
+            <span class="bg-gray-100 text-gray-600 rounded-full px-3 py-1.5">{{ __(ucfirst($request->condition)) }}</span>
+            <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="clock" class="w-4 h-4" /> {{ __(ucfirst($request->urgency)) }}</span>
+        </div>
 
-        {{-- Offer: already submitted, form, or blocked --}}
-        @if ($lead->offer)
-            <div class="bg-white shadow-soft rounded-2xl p-6">
-                <div class="flex items-center justify-between">
-                    <h2 class="font-semibold text-gray-900">{{ __('Your offer') }}</h2>
-                    <span class="text-lg font-semibold text-brand-600">{{ $lead->offer->price }} {{ $lead->offer->currency }}</span>
-                </div>
-                <p class="mt-2 text-sm text-gray-500">{{ __('Submitted. The buyer will review and respond.') }}</p>
-                <button wire:click="chat" class="mt-3 text-sm text-brand-600 underline">{{ __('Chat with buyer') }}</button>
+        @if (! empty($request->specifications))
+            <div class="mt-4 rounded-2xl bg-gray-50 p-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+                @foreach ($request->specifications as $key => $value)
+                    <div class="flex justify-between gap-2">
+                        <span class="text-gray-400">{{ __(\Illuminate\Support\Str::headline($key)) }}</span>
+                        <span class="text-gray-800 font-medium text-end">{{ is_array($value) ? implode(', ', $value) : $value }}</span>
+                    </div>
+                @endforeach
             </div>
-        @elseif ($canOffer)
-            <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
-                <h2 class="font-semibold text-gray-900 mb-4">{{ __('Submit your offer') }}</h2>
+        @endif
 
-                @unless ($onSubscription)
-                    <p class="mb-4 text-sm {{ $canAfford ? 'text-gray-500' : 'text-red-600' }}">
-                        {{ __('Submitting an offer uses 1 credit. Balance: :n', ['n' => $credits]) }}
-                    </p>
-                @endunless
+        @if ($request->description)
+            <p class="mt-4 text-gray-700 text-sm whitespace-pre-line leading-relaxed">{{ $request->description }}</p>
+        @endif
 
-                <form wire:submit="submit" class="space-y-5">
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <x-input-label for="price" :value="__('Price (EGP)')" />
-                            <x-text-input wire:model="form.price" id="price" type="number" min="1" class="block mt-1 w-full" required />
-                            <x-input-error :messages="$errors->get('form.price')" class="mt-2" />
-                        </div>
-                        <div>
-                            <x-input-label for="delivery_days" :value="__('Delivery (days)')" />
-                            <x-text-input wire:model="form.delivery_days" id="delivery_days" type="number" min="0" class="block mt-1 w-full" />
-                            <x-input-error :messages="$errors->get('form.delivery_days')" class="mt-2" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <x-input-label for="warranty" :value="__('Warranty')" />
-                        <x-text-input wire:model="form.warranty" id="warranty" type="text" class="block mt-1 w-full" placeholder="{{ __('e.g. 1 year') }}" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="offer_description" :value="__('Offer details')" />
-                        <textarea wire:model="form.description" id="offer_description" rows="3"
-                                  class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm"></textarea>
-                        <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
-                    </div>
-
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" wire:model="form.negotiation_enabled"
-                               class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
-                        <span class="text-sm text-gray-700">{{ __('Allow negotiation') }}</span>
-                    </label>
-
-                    <div class="flex justify-end">
-                        <x-primary-button :disabled="! $canAfford">{{ __('Submit offer') }}</x-primary-button>
-                    </div>
-                </form>
-            </div>
-        @else
-            <div class="bg-white shadow-soft rounded-2xl p-6 text-gray-500">
-                {{ __('This lead is no longer open for offers.') }}
+        @if ($request->attachments->isNotEmpty())
+            <div class="mt-4 flex flex-wrap gap-2">
+                @foreach ($request->attachments as $attachment)
+                    <img src="{{ $attachment->url() }}" class="h-24 w-24 rounded-2xl object-cover" />
+                @endforeach
             </div>
         @endif
     </div>
+
+    {{-- Offer: submitted / form / blocked --}}
+    @if ($lead->offer)
+        <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
+            <div class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-full px-2.5 py-1 mb-3">
+                <x-icon name="check" class="w-4 h-4" /> {{ __('Your offer') }}
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-500">{{ __('Submitted. The buyer will review and respond.') }}</span>
+                <span class="text-2xl font-extrabold text-brand-600 shrink-0">{{ $lead->offer->price }} <span class="text-xs font-medium">{{ $lead->offer->currency }}</span></span>
+            </div>
+            <button wire:click="chat" class="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">
+                <x-icon name="chat" class="w-4 h-4" /> {{ __('Chat with buyer') }}
+            </button>
+        </div>
+    @elseif ($canOffer)
+        <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
+            <h2 class="font-extrabold text-lg mb-1">{{ __('Submit your offer') }}</h2>
+            @unless ($onSubscription)
+                <p class="mb-4 text-sm flex items-center gap-1.5 {{ $canAfford ? 'text-gray-400' : 'text-red-600' }}">
+                    <x-icon name="bolt" class="w-4 h-4" /> {{ __('Submitting an offer uses 1 credit. Balance: :n', ['n' => $credits]) }}
+                </p>
+            @endunless
+
+            <form wire:submit="submit" class="space-y-5">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <x-input-label for="price" :value="__('Price (EGP)')" />
+                        <x-text-input wire:model="form.price" id="price" type="number" min="1" class="block mt-1 w-full" required />
+                        <x-input-error :messages="$errors->get('form.price')" class="mt-2" />
+                    </div>
+                    <div>
+                        <x-input-label for="delivery_days" :value="__('Delivery (days)')" />
+                        <x-text-input wire:model="form.delivery_days" id="delivery_days" type="number" min="0" class="block mt-1 w-full" />
+                        <x-input-error :messages="$errors->get('form.delivery_days')" class="mt-2" />
+                    </div>
+                </div>
+
+                <div>
+                    <x-input-label for="warranty" :value="__('Warranty')" />
+                    <x-text-input wire:model="form.warranty" id="warranty" type="text" class="block mt-1 w-full" placeholder="{{ __('e.g. 1 year') }}" />
+                </div>
+
+                <div>
+                    <x-input-label for="offer_description" :value="__('Offer details')" />
+                    <textarea wire:model="form.description" id="offer_description" rows="3"
+                              class="block mt-1 w-full border-gray-200 focus:border-brand-500 focus:ring-brand-500 rounded-lg"></textarea>
+                    <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
+                </div>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" wire:model="form.negotiation_enabled"
+                           class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
+                    <span class="text-sm text-gray-700">{{ __('Allow negotiation') }}</span>
+                </label>
+
+                <x-primary-button :disabled="! $canAfford" class="w-full">{{ __('Submit offer') }}</x-primary-button>
+            </form>
+        </div>
+    @else
+        <div class="bg-white shadow-soft rounded-3xl p-8 text-center text-gray-500">
+            <span class="inline-flex w-14 h-14 rounded-2xl bg-gray-100 text-gray-400 items-center justify-center mb-3">
+                <x-icon name="x-mark" class="w-7 h-7" />
+            </span>
+            <p>{{ __('This lead is no longer open for offers.') }}</p>
+        </div>
+    @endif
 </div>

@@ -38,4 +38,37 @@ class Nav
 
         return $items;
     }
+
+    /** Localized title for the current screen (shown in the mobile app bar). */
+    public static function title(): string
+    {
+        $map = [
+            'dashboard' => 'Home',
+            'requests.index' => 'My requests',
+            'requests.create' => 'New request',
+            'requests.show' => 'Request',
+            'requests.edit' => 'Edit request',
+            'merchant.leads.index' => 'Leads',
+            'merchant.leads.show' => 'Lead',
+            'merchant.billing' => 'Billing',
+            'leaderboard' => 'Leaderboard',
+            'notifications.index' => 'Notifications',
+            'profile' => 'Profile',
+            'admin.dashboard' => 'Admin',
+            'admin.merchants' => 'Merchants',
+            'admin.users' => 'Users',
+            'admin.requests' => 'Requests',
+            'admin.plans' => 'Plans',
+            'conversations.show' => 'Chat',
+        ];
+
+        foreach ($map as $route => $title) {
+            if (request()->routeIs($route)) {
+                return __($title);
+            }
+        }
+
+        return config('app.name');
+    }
 }
+

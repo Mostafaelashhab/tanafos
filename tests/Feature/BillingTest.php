@@ -76,14 +76,13 @@ class BillingTest extends TestCase
         ]);
     }
 
-    public function test_merchant_can_buy_credits_from_the_billing_page(): void
+    public function test_billing_page_lists_packages(): void
     {
         $merchant = MerchantProfile::factory()->create(['credits_balance' => 0]);
 
         Volt::actingAs($merchant->user)->test('merchant.billing')
-            ->call('buy', 'growth');
-
-        $this->assertSame(500, $merchant->fresh()->credits_balance);
+            ->assertOk()
+            ->assertSee(route('merchant.checkout', ['kind' => 'package', 'key' => 'growth']));
     }
 
     public function test_billing_page_is_merchant_only(): void

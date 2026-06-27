@@ -24,6 +24,9 @@ class RequestForm extends Form
     public string $preferred_delivery = '';
     public string $description = '';
 
+    /** Category-specific specs collected in the wizard (stored as JSON). */
+    public array $specifications = [];
+
     public function rules(): array
     {
         return [
@@ -57,6 +60,7 @@ class RequestForm extends Form
         $this->warranty_required = $request->warranty_required;
         $this->preferred_delivery = (string) $request->preferred_delivery;
         $this->description = (string) $request->description;
+        $this->specifications = $request->specifications ?? [];
     }
 
     /** Persist a new request for the given buyer. Optionally publish immediately. */
@@ -100,6 +104,7 @@ class RequestForm extends Form
             'warranty_required' => $this->warranty_required,
             'preferred_delivery' => $this->preferred_delivery ?: null,
             'description' => $this->description ?: null,
+            'specifications' => array_filter($this->specifications, fn ($v) => $v !== '' && $v !== null) ?: null,
         ];
     }
 }

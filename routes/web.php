@@ -20,27 +20,10 @@ Route::post('logout', function (Logout $logout) {
 
 // Type-aware dashboard: merchants and buyers see different homes.
 Route::get('dashboard', function () {
-    $user = Auth::user();
-
-    // First-run onboarding for buyers & merchants.
-    if (in_array($user->type, ['buyer', 'merchant'], true) && ! $user->onboarded_at) {
-        return redirect()->route('onboarding');
-    }
-
-    return $user->isMerchant()
+    return Auth::user()->isMerchant()
         ? view('dashboard.merchant')
         : view('dashboard.buyer');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-// First-run onboarding screen.
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('welcome', 'onboarding')->name('onboarding');
-    Route::post('welcome', function () {
-        Auth::user()->forceFill(['onboarded_at' => now()])->save();
-
-        return redirect()->route('dashboard');
-    })->name('onboarding.complete');
-});
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -78,6 +61,7 @@ Route::middleware(['auth', 'verified', 'user.type:admin'])
         Volt::route('users', 'admin.users')->name('users');
         Volt::route('requests', 'admin.requests')->name('requests');
         Volt::route('plans', 'admin.plans')->name('plans');
+        Volt::route('payments', 'admin.payments')->name('payments');
     });
 
 // Merchant-only area (leads, offers, credits — built out in later phases).
@@ -88,6 +72,7 @@ Route::middleware(['auth', 'verified', 'user.type:merchant'])
         Volt::route('leads', 'merchant.leads.index')->name('leads.index');
         Volt::route('leads/{lead}', 'merchant.leads.show')->name('leads.show');
         Volt::route('billing', 'merchant.billing')->name('billing');
+        Volt::route('checkout/{kind}/{key}', 'merchant.checkout')->name('checkout');
     });
 
 require __DIR__.'/auth.php';

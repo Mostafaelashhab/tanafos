@@ -63,6 +63,13 @@
                         </a>
                     </div>
 
+                    {{-- Mobile screen title (centered) — empty spacer on root --}}
+                    <div class="md:hidden flex-1 min-w-0 text-center px-2">
+                        @unless ($isRoot)
+                            <span class="font-bold text-[17px] text-gray-900 truncate block">{{ \App\Support\Nav::title() }}</span>
+                        @endunless
+                    </div>
+
                     {{-- Desktop nav --}}
                     <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
                         @foreach (\App\Support\Nav::primary($user) as $item)
@@ -82,13 +89,13 @@
                         <livewire:notifications.bell />
 
                         {{-- Profile menu --}}
-                        <x-dropdown align="left" width="48">
+                        <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-100">
                                     <span class="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
                                         {{ mb_substr($user->name, 0, 1) }}
                                     </span>
-                                    <x-icon name="chevron-down" class="w-4 h-4 text-gray-400" />
+                                    <x-icon name="chevron-down" class="hidden md:block w-4 h-4 text-gray-400" />
                                 </button>
                             </x-slot>
                             <x-slot name="content">
