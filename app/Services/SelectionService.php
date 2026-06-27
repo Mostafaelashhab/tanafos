@@ -15,7 +15,7 @@ class SelectionService
      */
     public function selectWinner(Offer $offer): Offer
     {
-        return DB::transaction(function () use ($offer) {
+        $accepted = DB::transaction(function () use ($offer) {
             $request = $offer->request()->lockForUpdate()->firstOrFail();
 
             // Merchants with a live offer here — their win-rate changes either way.
@@ -48,6 +48,11 @@ class SelectionService
 
             return $offer->fresh();
         });
+
+        // Tell the winning merchant they won (DB + live broadcast).
+        $accepted->merchantProfile->user->notify(new \App\Notifications\OfferAccepted($accepted));
+
+        return $accepted;
     }
 
     /** win_rate = accepted offers / total offers, as a percentage. */

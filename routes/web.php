@@ -34,6 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Volt::route('conversations/{conversation}', 'conversations.show')->name('conversations.show');
     Volt::route('leaderboard', 'leaderboard')->name('leaderboard');
     Volt::route('notifications', 'notifications.index')->name('notifications.index');
+
+    // Web Push subscription management
+    Route::post('push/subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'store'])->name('push.subscribe');
+    Route::delete('push/subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'destroy'])->name('push.unsubscribe');
 });
 
 // Buyer-only area — publishing and managing demand requests.

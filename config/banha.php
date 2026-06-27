@@ -38,6 +38,17 @@ return [
     /*
     | AI enrichment (Anthropic). Disabled automatically when no API key is set.
     */
+    /*
+    | Web Push (PWA background notifications). Disabled automatically when no
+    | VAPID keypair is configured.
+    */
+    'push' => [
+        'enabled' => (bool) env('VAPID_PUBLIC_KEY') && (bool) env('VAPID_PRIVATE_KEY'),
+        'public_key' => env('VAPID_PUBLIC_KEY'),
+        'private_key' => env('VAPID_PRIVATE_KEY'),
+        'subject' => env('VAPID_SUBJECT', 'mailto:hello@tanafos.shop'),
+    ],
+
     'ai' => [
         'enabled' => (bool) env('ANTHROPIC_API_KEY'),
         'key' => env('ANTHROPIC_API_KEY'),

@@ -2,17 +2,17 @@
 
 namespace App\Notifications;
 
-use App\Models\Offer;
+use App\Models\Message;
 use App\Notifications\Concerns\Pushable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOffer extends Notification
+class NewMessage extends Notification
 {
     use Pushable, Queueable;
 
-    public function __construct(public Offer $offer)
+    public function __construct(public Message $message)
     {
     }
 
@@ -28,9 +28,9 @@ class NewOffer extends Notification
     public function toWebPush(object $notifiable): array
     {
         return [
-            'title' => __('New offer on :title', ['title' => $this->offer->request->title]),
-            'body' => $this->offer->merchantProfile->business_name.' · '.$this->offer->price.' '.__('EGP'),
-            'url' => route('requests.show', $this->offer->request_id),
+            'title' => __('New message from :sender', ['sender' => $this->message->sender?->name]),
+            'body' => \Illuminate\Support\Str::limit($this->message->body, 80),
+            'url' => route('conversations.show', $this->message->conversation_id),
         ];
     }
 
@@ -40,12 +40,9 @@ class NewOffer extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'offer_id' => $this->offer->id,
-            'request_id' => $this->offer->request_id,
-            'title' => $this->offer->request->title,
-            'merchant' => $this->offer->merchantProfile->business_name,
-            'price' => $this->offer->price,
-            'currency' => $this->offer->currency,
+            'conversation_id' => $this->message->conversation_id,
+            'sender' => $this->message->sender?->name,
+            'preview' => \Illuminate\Support\Str::limit($this->message->body, 60),
         ];
     }
 

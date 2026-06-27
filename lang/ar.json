@@ -193,6 +193,8 @@
     "Notification": "إشعار",
     "New lead: :title": "عميل محتمل جديد: :title",
     "New offer on :title": "عرض جديد على: :title",
+    "You won the deal: :title": "لقد فزت بالصفقة: :title",
+    "New message from :sender": "رسالة جديدة من :sender",
 
     "Admin": "الإدارة",
     "Overview": "نظرة عامة",
@@ -232,5 +234,13 @@
     "Choose a new password": "اختر كلمة مرور جديدة",
     "Enter and confirm your new password below.": "أدخل كلمة المرور الجديدة وأكّدها أدناه.",
     "Confirm password": "تأكيد كلمة المرور",
-    "Verify your email": "تأكيد بريدك الإلكتروني"
+    "Verify your email": "تأكيد بريدك الإلكتروني",
+
+    "Describe what you need and let merchants compete.": "صِف ما تحتاجه ودع التجار يتنافسون عليه.",
+    "Latest offers": "أحدث العروض",
+
+    "Enable push notifications": "تفعيل الإشعارات",
+    "Notifications on": "الإشعارات مفعّلة",
+    "A buyer is looking for what you offer.": "يبحث أحد المشترين عمّا تقدّمه.",
+    "The buyer selected your offer. Reach out to finalise.": "اختار المشتري عرضك. تواصل معه لإتمام الصفقة."
 }

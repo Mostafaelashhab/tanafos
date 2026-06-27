@@ -6,6 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tanafos">
+@auth
+    @if (config('banha.push.enabled'))
+        <meta name="vapid-public-key" content="{{ config('banha.push.public_key') }}">
+    @endif
+@endauth
 
 <script>
     if ('serviceWorker' in navigator) {

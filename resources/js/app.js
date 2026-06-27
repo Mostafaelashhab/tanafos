@@ -4,3 +4,6 @@
 if (import.meta.env.VITE_REVERB_APP_KEY) {
     import('./echo');
 }
+
+// Web Push helper (window.TanafosPush) — used by the enable-notifications button.
+import './push';

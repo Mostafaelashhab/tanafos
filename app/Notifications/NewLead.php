@@ -3,26 +3,37 @@
 namespace App\Notifications;
 
 use App\Models\Lead;
+use App\Notifications\Concerns\Pushable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
 class NewLead extends Notification
 {
-    use Queueable;
+    use Pushable, Queueable;
 
     public function __construct(public Lead $lead)
     {
     }
 
     /**
-     * Delivery channels: persisted to DB and pushed live over the user's private channel.
+     * Delivery channels: persisted to DB, broadcast live, and Web Push (if configured).
      *
      * @return array<int, string>
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'broadcast'];
+        return $this->withPush(['database', 'broadcast']);
+    }
+
+    /** @return array<string, mixed> */
+    public function toWebPush(object $notifiable): array
+    {
+        return [
+            'title' => __('New lead: :title', ['title' => $this->lead->request->title]),
+            'body' => __('A buyer is looking for what you offer.'),
+            'url' => route('merchant.leads.show', $this->lead->id),
+        ];
     }
 
     /**

@@ -32,9 +32,12 @@ new #[Layout('layouts.app')] class extends Component {
 
 <div class="py-8">
     <div class="max-w-2xl mx-auto px-4">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between gap-3 mb-6 flex-wrap">
             <h1 class="font-bold text-2xl text-gray-900">{{ __('Notifications') }}</h1>
-            <button wire:click="markAllRead" class="text-sm text-indigo-600 hover:underline">{{ __('Mark all read') }}</button>
+            <div class="flex items-center gap-3">
+                <x-push-button />
+                <button wire:click="markAllRead" class="text-sm text-indigo-600 hover:underline">{{ __('Mark all read') }}</button>
+            </div>
         </div>
 
         <div class="bg-white rounded-xl ring-1 ring-gray-100 divide-y divide-gray-50 overflow-hidden">

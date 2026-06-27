@@ -56,4 +56,39 @@ class NotificationsUiTest extends TestCase
 
         $this->assertNotNull($user->notifications()->first()->read_at);
     }
+
+    public function test_winning_merchant_is_notified(): void
+    {
+        \Illuminate\Support\Facades\Notification::fake();
+
+        $request = \App\Models\Request::factory()->published()->create();
+        $offer = \App\Models\Offer::factory()->create(['request_id' => $request->id]);
+
+        app(\App\Services\SelectionService::class)->selectWinner($offer);
+
+        \Illuminate\Support\Facades\Notification::assertSentTo(
+            $offer->merchantProfile->user,
+            \App\Notifications\OfferAccepted::class
+        );
+    }
+
+    public function test_chat_recipient_is_notified_on_new_message(): void
+    {
+        \Illuminate\Support\Facades\Notification::fake();
+
+        $buyer = \App\Models\User::factory()->create(['type' => 'buyer']);
+        $profile = MerchantProfile::factory()->create();
+        $request = Request::factory()->published()->for($buyer, 'buyer')->create();
+        $conversation = \App\Models\Conversation::factory()->create([
+            'request_id' => $request->id,
+            'buyer_id' => $buyer->id,
+            'merchant_profile_id' => $profile->id,
+        ]);
+
+        Volt::actingAs($buyer)->test('conversations.show', ['conversation' => $conversation])
+            ->set('body', 'متى التسليم؟')
+            ->call('send');
+
+        \Illuminate\Support\Facades\Notification::assertSentTo($profile->user, \App\Notifications\NewMessage::class);
+    }
 }

@@ -38,6 +38,12 @@ new #[Layout('layouts.app')] class extends Component {
         $this->body = '';
 
         broadcast(new MessageSent($message))->toOthers();
+
+        // Notify the other participant (DB + live broadcast).
+        $recipient = Auth::id() === $this->conversation->buyer_id
+            ? $this->conversation->merchantProfile->user
+            : $this->conversation->buyer;
+        $recipient?->notify(new \App\Notifications\NewMessage($message));
     }
 
     /** Mark messages from the other participant as read. */

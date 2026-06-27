@@ -18,6 +18,39 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
+// --- Web Push (PWA) ---------------------------------------------------------
+// Ready for when push is configured (VAPID keys + a subscription store). The
+// server sends a JSON payload: { title, body, url, icon }.
+self.addEventListener('push', (event) => {
+    let data = {};
+    try { data = event.data ? event.data.json() : {}; } catch (e) { data = {}; }
+
+    const title = data.title || 'Tanafos';
+    const options = {
+        body: data.body || '',
+        icon: data.icon || '/icons/icon.svg',
+        badge: '/icons/icon.svg',
+        dir: 'rtl',
+        lang: 'ar',
+        data: { url: data.url || '/notifications' },
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    const url = event.notification.data?.url || '/notifications';
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+            for (const client of list) {
+                if (client.url.includes(url) && 'focus' in client) return client.focus();
+            }
+            return clients.openWindow(url);
+        })
+    );
+});
+
 self.addEventListener('fetch', (event) => {
     const { request } = event;
 
