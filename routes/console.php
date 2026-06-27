@@ -21,3 +21,8 @@ if (config('banha.scrape.enabled')) {
         ->hourly()
         ->withoutOverlapping();
 }
+
+// Close auctions that have reached their end time, and notify the winners.
+Schedule::command('auctions:close-ended')
+    ->everyMinute()
+    ->withoutOverlapping();

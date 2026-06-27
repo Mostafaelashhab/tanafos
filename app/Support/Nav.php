@@ -26,7 +26,7 @@ class Nav
         }
 
         if ($user->isMerchant()) {
-            $items[] = ['route' => 'merchant.leads.index', 'active' => 'merchant.leads.*', 'icon' => 'inbox', 'label' => 'Leads'];
+            $items[] = ['route' => 'merchant.leads.index', 'active' => 'merchant.leads.*', 'icon' => 'inbox', 'label' => 'Opportunities'];
             $items[] = ['route' => 'merchant.billing', 'active' => 'merchant.billing', 'icon' => 'credit-card', 'label' => 'Billing'];
         }
 
@@ -34,6 +34,7 @@ class Nav
             $items[] = ['route' => 'admin.dashboard', 'active' => 'admin.*', 'icon' => 'shield-check', 'label' => 'Admin'];
         }
 
+        $items[] = ['route' => 'auctions.index', 'active' => 'auctions.*', 'icon' => 'gavel', 'label' => 'Auctions'];
         $items[] = ['route' => 'leaderboard', 'active' => 'leaderboard', 'icon' => 'trophy', 'label' => 'Leaderboard'];
 
         return $items;
@@ -48,10 +49,13 @@ class Nav
             'requests.create' => 'New request',
             'requests.show' => 'Request',
             'requests.edit' => 'Edit request',
-            'merchant.leads.index' => 'Leads',
+            'merchant.leads.index' => 'Opportunities',
             'merchant.leads.show' => 'Lead',
             'merchant.billing' => 'Billing',
             'leaderboard' => 'Leaderboard',
+            'auctions.index' => 'Auctions',
+            'auctions.create' => 'New auction',
+            'auctions.show' => 'Auction',
             'notifications.index' => 'Notifications',
             'profile' => 'Profile',
             'admin.dashboard' => 'Admin',

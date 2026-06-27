@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'Tanafos') }}</title>
 
-        @php($rootRoutes = ['dashboard', 'requests.index', 'merchant.leads.index', 'merchant.billing', 'leaderboard', 'notifications.index', 'profile', 'admin.dashboard', 'admin.merchants', 'admin.users', 'admin.requests', 'admin.plans'])
+        @php($rootRoutes = ['dashboard', 'requests.index', 'merchant.leads.index', 'merchant.billing', 'leaderboard', 'auctions.index', 'notifications.index', 'profile', 'admin.dashboard', 'admin.merchants', 'admin.users', 'admin.requests', 'admin.plans'])
         @php($isRoot = collect($rootRoutes)->contains(fn ($r) => request()->routeIs($r)))
 
         <x-pwa-head />

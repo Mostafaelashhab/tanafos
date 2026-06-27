@@ -35,6 +35,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Volt::route('leaderboard', 'leaderboard')->name('leaderboard');
     Volt::route('notifications', 'notifications.index')->name('notifications.index');
 
+    // Auctions — any user can list an item; anyone can bid it up.
+    Volt::route('auctions', 'auctions.index')->name('auctions.index');
+    Volt::route('auctions/create', 'auctions.create')->name('auctions.create');
+    Volt::route('auctions/{auction}', 'auctions.show')->name('auctions.show');
+
     // Web Push subscription management
     Route::post('push/subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'store'])->name('push.subscribe');
     Route::delete('push/subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'destroy'])->name('push.unsubscribe');

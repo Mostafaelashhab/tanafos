@@ -25,6 +25,8 @@ class Notifications
             'NewMessage' => __('New message from :sender', ['sender' => $data['sender'] ?? '']),
             'PaymentApproved' => __('Payment approved: :item', ['item' => $data['item'] ?? '']),
             'PaymentRejected' => __('Payment not verified'),
+            'Outbid' => __('You have been outbid on :title', ['title' => $data['title'] ?? '']),
+            'AuctionWon' => __('You won the auction: :title', ['title' => $data['title'] ?? '']),
             default => __('Notification'),
         };
     }
@@ -38,6 +40,8 @@ class Notifications
             'NewMessage' => 'chat',
             'PaymentApproved' => 'badge-check',
             'PaymentRejected' => 'x-mark',
+            'Outbid' => 'gavel',
+            'AuctionWon' => 'trophy',
             default => 'bell',
         };
     }
@@ -60,6 +64,9 @@ class Notifications
                 ? route('conversations.show', $data['conversation_id'])
                 : route('dashboard'),
             'PaymentApproved', 'PaymentRejected' => route('merchant.billing'),
+            'Outbid', 'AuctionWon' => isset($data['auction_id'])
+                ? route('auctions.show', $data['auction_id'])
+                : route('auctions.index'),
             default => route('dashboard'),
         };
     }
