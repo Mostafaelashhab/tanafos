@@ -85,29 +85,20 @@
             </main>
         </div>
 
-        {{-- Mobile bottom navigation --}}
+        {{-- Mobile bottom navigation (Material-style active pill) --}}
         <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur border-t border-gray-100 pb-safe">
-            <div class="flex h-16">
-                @foreach (\App\Support\Nav::primary($user) as $item)
+            <div class="flex h-16 px-1">
+                @php($tabs = array_merge(\App\Support\Nav::primary($user), [['route' => 'profile', 'active' => 'profile', 'icon' => 'user', 'label' => 'Profile']]))
+                @foreach ($tabs as $item)
+                    @php($on = request()->routeIs($item['active']))
                     <a href="{{ route($item['route']) }}" wire:navigate
-                       @class([
-                           'flex-1 flex flex-col items-center justify-center gap-0.5 text-[11px]',
-                           'text-indigo-600' => request()->routeIs($item['active']),
-                           'text-gray-400' => ! request()->routeIs($item['active']),
-                       ])>
-                        <x-icon :name="$item['icon']" class="w-6 h-6" />
-                        {{ __($item['label']) }}
+                       class="flex-1 flex flex-col items-center justify-center gap-1 {{ $on ? 'text-indigo-700' : 'text-gray-400' }}">
+                        <span class="flex items-center justify-center w-14 h-8 rounded-full transition {{ $on ? 'bg-indigo-100' : '' }}">
+                            <x-icon :name="$item['icon']" class="w-6 h-6" />
+                        </span>
+                        <span class="text-[11px] {{ $on ? 'font-semibold' : '' }}">{{ __($item['label']) }}</span>
                     </a>
                 @endforeach
-                <a href="{{ route('profile') }}" wire:navigate
-                   @class([
-                       'flex-1 flex flex-col items-center justify-center gap-0.5 text-[11px]',
-                       'text-indigo-600' => request()->routeIs('profile'),
-                       'text-gray-400' => ! request()->routeIs('profile'),
-                   ])>
-                    <x-icon name="user" class="w-6 h-6" />
-                    {{ __('Profile') }}
-                </a>
             </div>
         </nav>
     </body>
