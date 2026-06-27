@@ -59,6 +59,8 @@ class Nav
             'admin.users' => 'Users',
             'admin.requests' => 'Requests',
             'admin.plans' => 'Plans',
+            'admin.payments' => 'Payments',
+            'admin.demand' => 'Imported demand',
             'conversations.show' => 'Chat',
         ];
 

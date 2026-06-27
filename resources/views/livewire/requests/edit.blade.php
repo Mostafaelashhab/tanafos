@@ -63,7 +63,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="mt-6">
                 <x-input-label for="images" :value="__('Add more images')" />
                 <input type="file" wire:model="images" id="images" multiple accept="image/*"
-                       class="block mt-1 w-full text-sm text-gray-600" />
+                       class="field-file mt-2" />
                 <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
             </div>
 

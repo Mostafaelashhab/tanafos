@@ -314,7 +314,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <div>
                         <x-input-label for="comment" :value="__('Comment')" />
                         <textarea wire:model="comment" id="comment" rows="3"
-                                  class="block mt-1 w-full border-gray-200 focus:border-brand-500 focus:ring-brand-500 rounded-lg"></textarea>
+                                  class="field mt-1"></textarea>
                         <x-input-error :messages="$errors->get('comment')" class="mt-2" />
                     </div>
                     <x-primary-button class="w-full">{{ __('Submit review') }}</x-primary-button>

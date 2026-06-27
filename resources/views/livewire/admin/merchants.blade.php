@@ -69,7 +69,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <x-icon name="search" class="w-5 h-5" />
             </span>
             <input wire:model.live.debounce.300ms="search" type="text" placeholder="{{ __('Search merchants…') }}"
-                   class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500" />
+                   class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} field" />
         </div>
 
         <div class="bg-white rounded-xl shadow-soft divide-y divide-gray-50 overflow-hidden">

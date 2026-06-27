@@ -16,6 +16,38 @@
     [x-cloak] { display: none !important; }
 }
 
+/* ---- Unified app-native form controls (Figma soft look) ----
+   One look for every text input / number / select / textarea, so forms feel
+   like a mobile app, not a default web form. Applied via the .field class. */
+@layer components {
+    .field {
+        @apply w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-[15px] leading-6 text-gray-900 shadow-none transition;
+    }
+    .field::placeholder { @apply text-gray-400; }
+    .field:focus,
+    .field:focus-visible {
+        @apply border-brand-500 bg-white outline-none ring-4 ring-brand-100;
+    }
+    .field:disabled { @apply bg-gray-100 text-gray-400 cursor-not-allowed; }
+
+    /* Selects: move the chevron to the start side (left) for Arabic/RTL */
+    select.field {
+        @apply appearance-none ps-4 pe-10 bg-no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-position: left 0.85rem center;
+        background-size: 1.1em 1.1em;
+    }
+
+    /* File input: tidy native button so it doesn't blow up the layout */
+    .field-file { @apply block w-full text-sm text-gray-500; }
+    .field-file::file-selector-button {
+        @apply me-3 rounded-full border-0 bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700 cursor-pointer;
+    }
+
+    /* Checkboxes match the brand */
+    .field-check { @apply h-5 w-5 rounded-md border-gray-300 text-brand-600 focus:ring-brand-400; }
+}
+
 /* App-like page transition on wire:navigate */
 @media (prefers-reduced-motion: no-preference) {
     .page-enter { animation: pageEnter .28s cubic-bezier(.22,.61,.36,1) both; }

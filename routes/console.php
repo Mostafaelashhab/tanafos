@@ -14,3 +14,10 @@ Artisan::command('inspire', function () {
 Schedule::command('queue:work --stop-when-empty --max-time=50 --tries=3')
     ->everyMinute()
     ->withoutOverlapping();
+
+// Pull fresh buyer demand from configured external sources (commission-exempt).
+if (config('banha.scrape.enabled')) {
+    Schedule::command('demand:import')
+        ->hourly()
+        ->withoutOverlapping();
+}

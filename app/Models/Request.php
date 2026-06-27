@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
     'condition', 'urgency', 'payment_method', 'warranty_required',
     'preferred_delivery', 'specifications', 'status',
     'selected_offer_id', 'published_at', 'expires_at',
+    'source', 'source_platform', 'source_url', 'external_id',
+    'contact_name', 'contact_phone', 'commission_exempt', 'imported_at',
 ])]
 class Request extends Model
 {
@@ -51,11 +53,13 @@ class Request extends Model
     {
         return [
             'warranty_required' => 'boolean',
+            'commission_exempt' => 'boolean',
             'specifications' => 'array',
             'lat' => 'decimal:7',
             'lng' => 'decimal:7',
             'published_at' => 'datetime',
             'expires_at' => 'datetime',
+            'imported_at' => 'datetime',
         ];
     }
 
@@ -122,6 +126,28 @@ class Request extends Model
     public function isOpen(): bool
     {
         return $this->status === 'open';
+    }
+
+    /** Imported from an external source (Google/Facebook/etc.) rather than posted by a buyer. */
+    public function isScraped(): bool
+    {
+        return $this->source === 'scraped';
+    }
+
+    public function scopeScraped(Builder $query): Builder
+    {
+        return $query->where('source', 'scraped');
+    }
+
+    public function scopeOrganic(Builder $query): Builder
+    {
+        return $query->where('source', 'organic');
+    }
+
+    /** Scraped requests still awaiting an admin's approval (held as drafts). */
+    public function scopePendingImport(Builder $query): Builder
+    {
+        return $query->where('source', 'scraped')->where('status', 'draft');
     }
 
     /** Transition draft → open and dispatch matching (matching wired in Phase 2). */

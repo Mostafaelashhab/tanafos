@@ -62,6 +62,7 @@ new #[Layout('layouts.app')] class extends Component {
             'canAfford' => $merchant->canSubmitOffer(),
             'onSubscription' => $merchant->onSubscription(),
             'credits' => $merchant->credits_balance,
+            'exempt' => (bool) $r->commission_exempt,
         ];
     }
 }; ?>
@@ -86,6 +87,11 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
         <div class="mt-4 flex flex-wrap gap-2 text-xs">
+            @if ($exempt)
+                <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 rounded-full px-3 py-1.5 font-bold">
+                    <x-icon name="bolt" class="w-4 h-4" /> {{ __('No commission') }}
+                </span>
+            @endif
             @if ($budget)
                 <span class="inline-flex items-center gap-1 bg-brand-50 text-brand-700 rounded-full px-3 py-1.5 font-semibold"><x-icon name="currency" class="w-4 h-4" /> {{ $budget }}</span>
             @endif
@@ -98,6 +104,24 @@ new #[Layout('layouts.app')] class extends Component {
             <span class="bg-gray-100 text-gray-600 rounded-full px-3 py-1.5">{{ __(ucfirst($request->condition)) }}</span>
             <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-3 py-1.5"><x-icon name="clock" class="w-4 h-4" /> {{ __(ucfirst($request->urgency)) }}</span>
         </div>
+
+        @if ($exempt && ($request->contact_phone || $request->source_url))
+            <div class="mt-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 p-4 space-y-2 text-sm">
+                <p class="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                    <x-icon name="badge-check" class="w-4 h-4" /> {{ __('Imported demand · free to contact') }}
+                </p>
+                @if ($request->contact_phone)
+                    <a href="tel:{{ $request->contact_phone }}" class="flex items-center gap-2 font-semibold text-emerald-800" dir="ltr">
+                        <x-icon name="phone" class="w-4 h-4" /> {{ $request->contact_phone }}
+                    </a>
+                @endif
+                @if ($request->source_url)
+                    <a href="{{ $request->source_url }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-emerald-700 underline break-all">
+                        <x-icon name="arrow-left" class="w-4 h-4 shrink-0" /> {{ __('View original post') }}
+                    </a>
+                @endif
+            </div>
+        @endif
 
         @if (! empty($request->specifications))
             <div class="mt-4 rounded-2xl bg-gray-50 p-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
@@ -133,18 +157,28 @@ new #[Layout('layouts.app')] class extends Component {
                 <span class="text-sm text-gray-500">{{ __('Submitted. The buyer will review and respond.') }}</span>
                 <span class="text-2xl font-extrabold text-brand-600 shrink-0">{{ $lead->offer->price }} <span class="text-xs font-medium">{{ $lead->offer->currency }}</span></span>
             </div>
-            <button wire:click="chat" class="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">
-                <x-icon name="chat" class="w-4 h-4" /> {{ __('Chat with buyer') }}
-            </button>
+            @if ($request->buyer_id)
+                <button wire:click="chat" class="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">
+                    <x-icon name="chat" class="w-4 h-4" /> {{ __('Chat with buyer') }}
+                </button>
+            @elseif ($request->contact_phone)
+                <a href="tel:{{ $request->contact_phone }}" class="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100" dir="ltr">
+                    <x-icon name="phone" class="w-4 h-4" /> {{ $request->contact_phone }}
+                </a>
+            @endif
         </div>
     @elseif ($canOffer)
         <div class="bg-white shadow-soft rounded-3xl p-5 sm:p-6">
             <h2 class="font-extrabold text-lg mb-1">{{ __('Submit your offer') }}</h2>
-            @unless ($onSubscription)
+            @if ($exempt)
+                <p class="mb-4 text-sm flex items-center gap-1.5 text-emerald-600 font-semibold">
+                    <x-icon name="bolt" class="w-4 h-4" /> {{ __('This is imported demand — offering is free (no credit used).') }}
+                </p>
+            @elseif (! $onSubscription)
                 <p class="mb-4 text-sm flex items-center gap-1.5 {{ $canAfford ? 'text-gray-400' : 'text-red-600' }}">
                     <x-icon name="bolt" class="w-4 h-4" /> {{ __('Submitting an offer uses 1 credit. Balance: :n', ['n' => $credits]) }}
                 </p>
-            @endunless
+            @endif
 
             <form wire:submit="submit" class="space-y-5">
                 <div class="grid gap-4 sm:grid-cols-2">
@@ -167,18 +201,19 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div>
                     <x-input-label for="offer_description" :value="__('Offer details')" />
-                    <textarea wire:model="form.description" id="offer_description" rows="3"
-                              class="block mt-1 w-full border-gray-200 focus:border-brand-500 focus:ring-brand-500 rounded-lg"></textarea>
+                    <textarea wire:model="form.description" id="offer_description" rows="3" class="field mt-1"></textarea>
                     <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
                 </div>
 
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" wire:model="form.negotiation_enabled"
-                           class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
-                    <span class="text-sm text-gray-700">{{ __('Allow negotiation') }}</span>
+                <label class="flex items-center gap-2.5 rounded-2xl bg-gray-50 px-4 py-3 cursor-pointer">
+                    <input type="checkbox" wire:model="form.negotiation_enabled" class="field-check" />
+                    <span class="text-sm font-medium text-gray-700">{{ __('Allow negotiation') }}</span>
                 </label>
 
-                <x-primary-button :disabled="! $canAfford" class="w-full">{{ __('Submit offer') }}</x-primary-button>
+                <button type="submit" @disabled(! $exempt && ! $canAfford)
+                        class="w-full inline-flex items-center justify-center gap-2 h-12 rounded-full bg-brand-600 text-white font-bold text-[15px] shadow-fab active:scale-[.98] transition disabled:opacity-50 disabled:shadow-none">
+                    <x-icon name="bolt" class="w-5 h-5" /> {{ __('Submit offer') }}
+                </button>
             </form>
         </div>
     @else

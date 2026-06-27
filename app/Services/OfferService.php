@@ -21,11 +21,15 @@ class OfferService
      */
     public function submit(MerchantProfile $merchant, Lead $lead, array $data): Offer
     {
-        $offer = DB::transaction(function () use ($merchant, $lead, $data) {
+        // Imported (scraped) demand is commission-exempt: no credit is charged
+        // and a merchant with an empty balance may still offer on it.
+        $exempt = (bool) $lead->request->commission_exempt;
+
+        $offer = DB::transaction(function () use ($merchant, $lead, $data, $exempt) {
             // Lock the profile row so concurrent submissions can't double-spend a credit.
             $merchant = MerchantProfile::whereKey($merchant->id)->lockForUpdate()->firstOrFail();
 
-            if (! $merchant->canSubmitOffer()) {
+            if (! $exempt && ! $merchant->canSubmitOffer()) {
                 throw new InsufficientCreditsException;
             }
 
@@ -42,7 +46,7 @@ class OfferService
             ]);
 
             $charged = false;
-            if (! $merchant->onSubscription()) {
+            if (! $exempt && ! $merchant->onSubscription()) {
                 $merchant->decrement('credits_balance');
                 app(CreditService::class)->recordConsumption($merchant, $merchant->credits_balance, $offer);
                 $charged = true;
@@ -57,7 +61,8 @@ class OfferService
         });
 
         // Notify the buyer (DB + live broadcast) once the offer is committed.
-        $offer->request->buyer->notify(new NewOffer($offer));
+        // Scraped requests have no buyer account, so guard the null.
+        $offer->request->buyer?->notify(new NewOffer($offer));
 
         return $offer;
     }

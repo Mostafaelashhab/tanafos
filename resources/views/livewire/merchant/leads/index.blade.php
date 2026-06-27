@@ -31,8 +31,15 @@ new #[Layout('layouts.app')] class extends Component {
             @forelse ($this->leads as $lead)
                 <a href="{{ route('merchant.leads.show', $lead) }}" wire:navigate
                    class="flex items-center justify-between p-4 hover:bg-gray-50">
-                    <div>
-                        <div class="font-medium text-gray-900">{{ $lead->request->title }}</div>
+                    <div class="min-w-0">
+                        <div class="font-medium text-gray-900 flex items-center gap-2">
+                            <span class="truncate">{{ $lead->request->title }}</span>
+                            @if ($lead->request->commission_exempt)
+                                <span class="shrink-0 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 rounded-full px-2 py-0.5 text-[10px] font-bold">
+                                    <x-icon name="bolt" class="w-3 h-3" /> {{ __('Free') }}
+                                </span>
+                            @endif
+                        </div>
                         <div class="text-sm text-gray-500">
                             {{ $lead->request->category->label() }}
                             @if ($lead->distance_km !== null)

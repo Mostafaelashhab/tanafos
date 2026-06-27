@@ -45,9 +45,9 @@ new #[Layout('layouts.app')] class extends Component {
                     <x-icon name="search" class="w-5 h-5" />
                 </span>
                 <input wire:model.live.debounce.300ms="search" type="text" placeholder="{{ __('Search users…') }}"
-                       class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500" />
+                       class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} field" />
             </div>
-            <select wire:model.live="type" class="border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500 text-sm">
+            <select wire:model.live="type" class="field text-sm !w-auto">
                 <option value="all">{{ __('All') }}</option>
                 <option value="buyer">{{ __('Buyers') }}</option>
                 <option value="merchant">{{ __('Merchants') }}</option>

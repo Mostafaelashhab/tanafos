@@ -52,4 +52,69 @@ return [
         'model' => env('ANTHROPIC_MODEL', 'claude-opus-4-8'),
     ],
 
+    /*
+    | Demand scraping — import "people looking for X" posts from external
+    | sources and turn them into requests. Imported demand is commission-exempt:
+    | merchants can submit offers on it WITHOUT spending a credit.
+    |
+    | Two source kinds are supported per entry:
+    |   - driver: 'api'  → an official/provider JSON endpoint (recommended; ToS-safe)
+    |   - driver: 'html' → a generic best-effort HTML scraper (config selectors)
+    |   - driver: 'json' → a local JSON file (manual import / seeding / testing)
+    */
+    'scrape' => [
+        'enabled' => (bool) env('SCRAPE_ENABLED', true),
+
+        // Fallback category for imported demand the parser can't classify.
+        'default_category_id' => env('SCRAPE_DEFAULT_CATEGORY_ID'),
+
+        // When true, imported demand goes live immediately. When false (default)
+        // it lands as a draft in the admin "Imported demand" review queue.
+        'auto_publish' => (bool) env('SCRAPE_AUTO_PUBLISH', false),
+
+        // Safety cap per source per run.
+        'per_source_limit' => (int) env('SCRAPE_LIMIT', 25),
+
+        'sources' => [
+            // --- Official provider feed (e.g. an Apify dataset or partner API) ---
+            'provider' => [
+                'driver' => 'api',
+                'platform' => env('SCRAPE_PROVIDER_PLATFORM', 'facebook'),
+                'enabled' => (bool) env('SCRAPE_PROVIDER_ENDPOINT'),
+                'endpoint' => env('SCRAPE_PROVIDER_ENDPOINT'),
+                'token' => env('SCRAPE_PROVIDER_TOKEN'),
+                // Dot-paths into each JSON item → our normalized fields.
+                'map' => [
+                    'external_id' => 'id',
+                    'text' => 'text',
+                    'url' => 'url',
+                    'contact_name' => 'author',
+                    'contact_phone' => 'phone',
+                    'city' => 'city',
+                    'posted_at' => 'created_at',
+                ],
+            ],
+
+            // --- Generic HTML scraper (best-effort; may break / violates some ToS) ---
+            'classifieds' => [
+                'driver' => 'html',
+                'platform' => 'web',
+                'enabled' => (bool) env('SCRAPE_HTML_URL'),
+                'url' => env('SCRAPE_HTML_URL'),
+                // CSS-ish selectors resolved via DOMXPath.
+                'item_selector' => env('SCRAPE_HTML_ITEM', 'article'),
+                'text_selector' => env('SCRAPE_HTML_TEXT', './/*'),
+                'link_selector' => env('SCRAPE_HTML_LINK', './/a/@href'),
+            ],
+
+            // --- Local JSON file (manual import / seeding) ---
+            'file' => [
+                'driver' => 'json',
+                'platform' => env('SCRAPE_FILE_PLATFORM', 'import'),
+                'enabled' => (bool) env('SCRAPE_FILE_PATH'),
+                'path' => env('SCRAPE_FILE_PATH'),
+            ],
+        ],
+    ],
+
 ];

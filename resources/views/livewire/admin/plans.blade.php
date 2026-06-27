@@ -151,7 +151,7 @@ new #[Layout('layouts.app')] class extends Component {
                         </div>
                         <div>
                             <x-input-label :value="__('Grants tier (for unlimited)')" />
-                            <select wire:model="grants_tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
+                            <select wire:model="grants_tier" class="field mt-1">
                                 <option value="">—</option>
                                 <option value="basic">{{ __('Basic') }}</option>
                                 <option value="gold">{{ __('Gold') }}</option>
@@ -161,7 +161,7 @@ new #[Layout('layouts.app')] class extends Component {
                     @else
                         <div>
                             <x-input-label :value="__('Tier')" />
-                            <select wire:model="tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
+                            <select wire:model="tier" class="field mt-1">
                                 <option value="basic">{{ __('Basic') }}</option>
                                 <option value="gold">{{ __('Gold') }}</option>
                                 <option value="premium">{{ __('Premium') }}</option>
@@ -169,7 +169,7 @@ new #[Layout('layouts.app')] class extends Component {
                         </div>
                     @endif
                     <label class="flex items-center gap-2 mt-6">
-                        <input type="checkbox" wire:model="is_active" class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
+                        <input type="checkbox" wire:model="is_active" class="field-check" />
                         <span class="text-sm text-gray-700">{{ __('Active') }}</span>
                     </label>
                 </div>

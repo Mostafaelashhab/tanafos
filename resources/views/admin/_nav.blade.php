@@ -7,6 +7,7 @@
         ['admin.requests', 'document', __('Requests')],
         ['admin.plans', 'credit-card', __('Plans')],
         ['admin.payments', 'currency', __('Payments')],
+        ['admin.demand', 'inbox', __('Imported demand')],
     ] as [$route, $icon, $label])
         <a href="{{ route($route) }}" wire:navigate
            @class([

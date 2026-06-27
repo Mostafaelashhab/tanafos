@@ -120,11 +120,11 @@ new #[Layout('layouts.app')] class extends Component {
         @endforeach
     </div>
 
-    <div class="bg-white rounded-3xl shadow-soft p-5 sm:p-7">
+    <div class="bg-white rounded-3xl shadow-soft p-4 sm:p-6">
 
         {{-- STEP 1: Category --}}
         @if ($step === 1)
-            <h2 class="font-extrabold text-xl mb-1">ماذا تريد أن تطلب؟</h2>
+            <h2 class="font-extrabold text-lg mb-1">ماذا تريد أن تطلب؟</h2>
             <p class="text-sm text-gray-400 mb-5">{{ __('Pick the category that fits your request.') }}</p>
 
             @php($chips = [['bg-brand-50','text-brand-600'],['bg-rose-50','text-rose-500'],['bg-amber-50','text-amber-600'],['bg-sky-50','text-sky-600'],['bg-emerald-50','text-emerald-600'],['bg-violet-50','text-violet-600']])
@@ -171,8 +171,8 @@ new #[Layout('layouts.app')] class extends Component {
 
         {{-- STEP 2: Details (+ category-specific fields) --}}
         @if ($step === 2)
-            <h2 class="font-extrabold text-xl mb-5">{{ __('Tell us the details') }}</h2>
-            <div class="space-y-5">
+            <h2 class="font-extrabold text-lg mb-4">{{ __('Tell us the details') }}</h2>
+            <div class="space-y-4">
                 <div>
                     <x-input-label for="title" :value="__('What do you need?')" />
                     <x-text-input wire:model="form.title" id="title" class="block mt-1 w-full" type="text" autofocus />
@@ -190,8 +190,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 <div>
                                     <x-input-label :value="__($f['label'])" />
                                     @if ($f['type'] === 'select')
-                                        <select wire:model="form.specifications.{{ $f['key'] }}"
-                                                class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
+                                        <select wire:model="form.specifications.{{ $f['key'] }}" class="field mt-1">
                                             <option value="">{{ __('Select') }}</option>
                                             @foreach ($f['options'] as $opt)
                                                 <option value="{{ $opt }}">{{ __($opt) }}</option>
@@ -199,7 +198,7 @@ new #[Layout('layouts.app')] class extends Component {
                                         </select>
                                     @else
                                         <x-text-input wire:model="form.specifications.{{ $f['key'] }}"
-                                                      type="{{ $f['type'] === 'number' ? 'number' : 'text' }}" class="block mt-1 w-full" />
+                                                      type="{{ $f['type'] === 'number' ? 'number' : 'text' }}" class="mt-1" />
                                     @endif
                                 </div>
                             @endforeach
@@ -209,16 +208,15 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div>
                     <x-input-label for="description" :value="__('Additional details')" />
-                    <textarea wire:model="form.description" id="description" rows="3"
-                              class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500"></textarea>
+                    <textarea wire:model="form.description" id="description" rows="3" class="field mt-1"></textarea>
                 </div>
             </div>
         @endif
 
         {{-- STEP 3: Budget & location --}}
         @if ($step === 3)
-            <h2 class="font-extrabold text-xl mb-5">{{ __('Budget & preferences') }}</h2>
-            <div class="space-y-5">
+            <h2 class="font-extrabold text-lg mb-4">{{ __('Budget & preferences') }}</h2>
+            <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <x-input-label for="bmin" :value="__('Budget from (EGP)')" />
@@ -237,7 +235,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <x-input-label for="condition" :value="__('Condition')" />
-                        <select wire:model="form.condition" id="condition" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
+                        <select wire:model="form.condition" id="condition" class="field mt-1">
                             <option value="any">{{ __('Any') }}</option>
                             <option value="new">{{ __('New') }}</option>
                             <option value="used">{{ __('Used') }}</option>
@@ -245,23 +243,23 @@ new #[Layout('layouts.app')] class extends Component {
                     </div>
                     <div>
                         <x-input-label for="urgency" :value="__('Urgency')" />
-                        <select wire:model="form.urgency" id="urgency" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
+                        <select wire:model="form.urgency" id="urgency" class="field mt-1">
                             <option value="low">{{ __('Low') }}</option>
                             <option value="normal">{{ __('Normal') }}</option>
                             <option value="high">{{ __('High') }}</option>
                         </select>
                     </div>
                 </div>
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" wire:model="form.warranty_required" class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
-                    <span class="text-sm text-gray-700">{{ __('Warranty required') }}</span>
+                <label class="flex items-center gap-2.5 rounded-2xl bg-gray-50 px-4 py-3 cursor-pointer">
+                    <input type="checkbox" wire:model="form.warranty_required" class="field-check" />
+                    <span class="text-sm font-medium text-gray-700">{{ __('Warranty required') }}</span>
                 </label>
             </div>
         @endif
 
         {{-- STEP 4: Review & images --}}
         @if ($step === 4)
-            <h2 class="font-extrabold text-xl mb-5">{{ __('Review & images') }}</h2>
+            <h2 class="font-extrabold text-lg mb-4">{{ __('Review & images') }}</h2>
 
             <div class="rounded-2xl bg-gray-50 p-4 space-y-2 text-sm mb-5">
                 <div class="flex justify-between"><span class="text-gray-400">{{ __('Category') }}</span><span class="font-semibold">{{ $this->selectedCategory()?->name_ar }}</span></div>
@@ -276,7 +274,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div>
                 <x-input-label for="images" :value="__('Images')" />
-                <input type="file" wire:model="images" id="images" multiple accept="image/*" class="block mt-1 w-full text-sm text-gray-600" />
+                <input type="file" wire:model="images" id="images" multiple accept="image/*" class="field-file mt-2" />
                 <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
                 <div wire:loading wire:target="images" class="mt-2 text-sm text-gray-500">{{ __('Uploading…') }}</div>
                 @if ($images)
@@ -290,19 +288,29 @@ new #[Layout('layouts.app')] class extends Component {
         @endif
 
         {{-- Wizard controls --}}
-        <div class="mt-7 flex items-center gap-3">
+        <div class="mt-6 flex items-center gap-3">
             @if ($step > 1)
-                <button type="button" wire:click="back" class="px-5 py-2.5 rounded-full bg-gray-100 text-gray-700 font-semibold text-sm">{{ __('Back') }}</button>
+                <button type="button" wire:click="back"
+                        class="shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 active:scale-95 transition">
+                    <x-icon name="arrow-right" class="w-5 h-5" />
+                </button>
             @endif
-            <div class="flex-1"></div>
             @if ($step < 4)
-                <x-primary-button wire:click="next" type="button" class="px-7">
-                    {{ __('Next') }} <x-icon name="arrow-left" class="w-4 h-4" />
-                </x-primary-button>
+                <button type="button" wire:click="next"
+                        class="flex-1 inline-flex items-center justify-center gap-2 h-12 rounded-full bg-brand-600 text-white font-bold text-[15px] shadow-fab active:scale-[.98] transition">
+                    {{ __('Next') }} <x-icon name="arrow-left" class="w-5 h-5" />
+                </button>
             @else
-                <button type="button" wire:click="save(false)" class="text-sm text-gray-500 underline">{{ __('Save as draft') }}</button>
-                <x-primary-button wire:click="save(true)" type="button">{{ __('Publish request') }}</x-primary-button>
+                <button type="button" wire:click="save(true)"
+                        class="flex-1 inline-flex items-center justify-center gap-2 h-12 rounded-full bg-brand-600 text-white font-bold text-[15px] shadow-fab active:scale-[.98] transition">
+                    <x-icon name="check" class="w-5 h-5" /> {{ __('Publish request') }}
+                </button>
             @endif
         </div>
+        @if ($step === 4)
+            <div class="mt-3 text-center">
+                <button type="button" wire:click="save(false)" class="text-sm text-gray-400 underline">{{ __('Save as draft') }}</button>
+            </div>
+        @endif
     </div>
 </div>

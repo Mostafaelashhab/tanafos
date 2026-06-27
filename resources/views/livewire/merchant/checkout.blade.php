@@ -175,7 +175,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
                 <div>
                     <x-input-label for="proof" :value="__('Screenshot (optional)')" />
-                    <input type="file" wire:model="proof" id="proof" accept="image/*" class="block mt-1 w-full text-sm text-gray-600" />
+                    <input type="file" wire:model="proof" id="proof" accept="image/*" class="field-file mt-2" />
                     <x-input-error :messages="$errors->get('proof')" class="mt-2" />
                     <div wire:loading wire:target="proof" class="mt-2 text-sm text-gray-500">{{ __('Uploading…') }}</div>
                     @if ($proof)

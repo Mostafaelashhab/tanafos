@@ -62,6 +62,7 @@ Route::middleware(['auth', 'verified', 'user.type:admin'])
         Volt::route('requests', 'admin.requests')->name('requests');
         Volt::route('plans', 'admin.plans')->name('plans');
         Volt::route('payments', 'admin.payments')->name('payments');
+        Volt::route('demand', 'admin.demand')->name('demand');
     });
 
 // Merchant-only area (leads, offers, credits — built out in later phases).

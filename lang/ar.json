@@ -11,12 +11,10 @@
     "Forgot your password?": "نسيت كلمة المرور؟",
     "Profile": "الملف الشخصي",
     "Dashboard": "لوحة التحكم",
-
     "I want to": "أريد أن",
     "Request products": "أطلب منتجات",
     "Sell as a merchant": "أبيع كتاجر",
     "Business name": "اسم النشاط التجاري",
-
     "Buyer dashboard": "لوحة المشتري",
     "Merchant dashboard": "لوحة التاجر",
     "Welcome, :name": "أهلاً، :name",
@@ -33,7 +31,6 @@
     "Win rate": "معدل الفوز",
     "Conversion rate": "معدل التحويل",
     "Lead matching and offers arrive in Phase 2.": "مطابقة العملاء والعروض تأتي في المرحلة الثانية.",
-
     "My requests": "طلباتي",
     "New request": "طلب جديد",
     "Edit request": "تعديل الطلب",
@@ -75,7 +72,7 @@
     "Request deleted.": "تم حذف الطلب.",
     "My requests ": "طلباتي",
     "All": "الكل",
-    "Active": "نشط",
+    "Active": "مُفعّل",
     "Drafts": "المسودّات",
     "Completed": "مكتمل",
     "images": "صور",
@@ -94,14 +91,12 @@
     "Matched": "تمت المطابقة",
     "Closed": "مغلق",
     "Expired": "منتهي",
-
     "km away": "كم",
     "Match": "التطابق",
     "No new leads yet.": "لا يوجد عملاء محتملون بعد.",
     "Distance": "المسافة",
     "Back to leads": "العودة إلى العملاء المحتملين",
     "Submitting offers on leads arrives in Phase 3.": "تقديم العروض على العملاء المحتملين يأتي في المرحلة الثالثة.",
-
     "Your offer": "عرضك",
     "Submitted. The buyer will review and respond.": "تم الإرسال. سيراجع المشتري ويرد.",
     "Submit your offer": "قدّم عرضك",
@@ -124,7 +119,6 @@
     "Delivery: :n days": "التسليم: :n يوم",
     "Negotiable": "قابل للتفاوض",
     "No offers yet. Merchants are reviewing your request.": "لا توجد عروض بعد. التجار يراجعون طلبك.",
-
     "Chat": "محادثة",
     "Chat with buyer": "محادثة المشتري",
     "Select winner": "اختر الفائز",
@@ -141,7 +135,6 @@
     "No messages yet. Say hello!": "لا توجد رسائل بعد. ابدأ المحادثة!",
     "Type a message…": "اكتب رسالة…",
     "Send": "إرسال",
-
     "Billing": "الفوترة",
     "Credits & billing": "النقاط والفوترة",
     "Subscription": "الاشتراك",
@@ -167,7 +160,6 @@
     "Purchased :name (unlimited)": "تم شراء :name (غير محدود)",
     "Subscribed to :name": "تم الاشتراك في :name",
     "Lead credit used": "تم استخدام نقطة عميل",
-
     "Leaderboard": "المتصدرون",
     "Top merchants": "أفضل التجار",
     "Ranked by completed deals and rating.": "مرتبون حسب الصفقات المكتملة والتقييم.",
@@ -181,10 +173,8 @@
     "Silver": "فضي",
     "Diamond": "ماسي",
     "Elite": "النخبة",
-
     "Specifications": "المواصفات",
     "AI": "ذكاء اصطناعي",
-
     "Home": "الرئيسية",
     "Leads": "العملاء المحتملون",
     "Mark all read": "تعليم الكل كمقروء",
@@ -195,7 +185,6 @@
     "New offer on :title": "عرض جديد على: :title",
     "You won the deal: :title": "لقد فزت بالصفقة: :title",
     "New message from :sender": "رسالة جديدة من :sender",
-
     "Admin": "الإدارة",
     "Overview": "نظرة عامة",
     "Merchants": "التجار",
@@ -216,7 +205,6 @@
     "Plans": "الباقات",
     "Saved.": "تم الحفظ.",
     "Add": "إضافة",
-    "Edit": "تعديل",
     "Credit package": "باقة نقاط",
     "Plan": "خطة",
     "Key": "المعرّف",
@@ -224,7 +212,6 @@
     "Credits (blank = unlimited)": "النقاط (فارغ = غير محدود)",
     "Grants tier (for unlimited)": "يمنح الفئة (لغير المحدود)",
     "Tier": "الفئة",
-    "Active": "مُفعّل",
     "Inactive": "موقوف",
     "Delete?": "حذف؟",
     "Points": "النقاط",
@@ -232,7 +219,6 @@
     "e.g. 100 or -50": "مثال: 100 أو -50",
     "Apply": "تطبيق",
     "Admin adjustment": "تعديل إداري",
-
     "How it works": "كيف يعمل",
     "For merchants": "للتجار",
     "Pricing": "الأسعار",
@@ -241,7 +227,6 @@
     "Account": "الحساب",
     "Get the app": "احصل على التطبيق",
     "Install Tanafos on your phone for instant offers.": "ثبّت تطبيق Tanafos على هاتفك لاستقبال العروض فورًا.",
-
     "Back to home": "العودة للرئيسية",
     "Back to log in": "العودة لتسجيل الدخول",
     "Welcome back": "مرحبًا بعودتك",
@@ -254,10 +239,7 @@
     "Enter and confirm your new password below.": "أدخل كلمة المرور الجديدة وأكّدها أدناه.",
     "Confirm password": "تأكيد كلمة المرور",
     "Verify your email": "تأكيد بريدك الإلكتروني",
-
     "Describe what you need and let merchants compete.": "صِف ما تحتاجه ودع التجار يتنافسون عليه.",
-
-    "Category": "الفئة",
     "Details": "التفاصيل",
     "Review": "مراجعة",
     "Next": "التالي",
@@ -347,7 +329,6 @@
     "Buyer": "مشتري",
     "Merchant": "تاجر",
     "Latest offers": "أحدث العروض",
-
     "Welcome": "أهلاً بك",
     "Install :app": "ثبّت :app",
     "Add to your home screen for the full app experience.": "أضِفه لشاشتك الرئيسية لتجربة تطبيق كاملة.",
@@ -364,5 +345,22 @@
     "Enable push notifications": "تفعيل الإشعارات",
     "Notifications on": "الإشعارات مفعّلة",
     "A buyer is looking for what you offer.": "يبحث أحد المشترين عمّا تقدّمه.",
-    "The buyer selected your offer. Reach out to finalise.": "اختار المشتري عرضك. تواصل معه لإتمام الصفقة."
+    "The buyer selected your offer. Reach out to finalise.": "اختار المشتري عرضك. تواصل معه لإتمام الصفقة.",
+    "No commission": "بدون عمولة",
+    "Free": "مجاني",
+    "Imported demand · free to contact": "طلب مستورد · تواصل مجاني",
+    "View original post": "عرض المنشور الأصلي",
+    "This is imported demand — offering is free (no credit used).": "ده طلب مستورد — تقديم العرض مجاني (من غير خصم كريدت).",
+    "Imported request": "طلب مستورد",
+    "Imported demand": "الطلبات المستوردة",
+    "Published": "منشور",
+    "Import now": "استيراد الآن",
+    "Importing…": "جاري الاستيراد…",
+    "Approve & publish": "قبول ونشر",
+    "Delete this imported request?": "حذف الطلب المستورد ده؟",
+    "Original post": "المنشور الأصلي",
+    "No imported demand here yet.": "لا توجد طلبات مستوردة هنا بعد.",
+    "Uncategorized": "غير مصنّف",
+    "Demand scraping is disabled.": "استيراد الطلبات معطّل.",
+    ":n new request(s) imported.": "تم استيراد :n طلب جديد."
 }
