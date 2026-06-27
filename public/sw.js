@@ -1,8 +1,10 @@
-// banha.shop service worker — shared-hosting friendly (no build step).
-const VERSION = 'v1';
-const CACHE = `banha-${VERSION}`;
+// Tanafos service worker — shared-hosting friendly (no build step).
+// Bump VERSION on every deploy: activate() deletes all caches that don't match,
+// purging anything a previous PWA left on this domain (old icon/manifest/assets).
+const VERSION = 'v2';
+const CACHE = `tanafos-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
-const PRECACHE = [OFFLINE_URL, '/icons/icon.svg', '/manifest.webmanifest'];
+const PRECACHE = [OFFLINE_URL, '/icons/icon-192.png?v=2', '/manifest.webmanifest?v=2'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)));

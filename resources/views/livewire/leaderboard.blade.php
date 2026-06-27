@@ -23,7 +23,7 @@ new #[Layout('layouts.app')] class extends Component {
         <h1 class="font-semibold text-2xl text-gray-800 mb-2">{{ __('Top merchants') }}</h1>
         <p class="text-sm text-gray-500 mb-6">{{ __('Ranked by completed deals and rating.') }}</p>
 
-        <div class="bg-white shadow-sm sm:rounded-lg divide-y">
+        <div class="bg-white shadow-soft rounded-2xl divide-y">
             @forelse ($this->merchants as $i => $merchant)
                 <div class="flex items-center gap-4 p-4">
                     <div class="w-8 text-center text-lg font-bold {{ $i < 3 ? 'text-amber-500' : 'text-gray-400' }}">

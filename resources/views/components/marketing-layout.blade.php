@@ -19,7 +19,7 @@
     {{-- Header --}}
     <header class="sticky top-0 z-30 bg-white/85 backdrop-blur border-b border-gray-100">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-            <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 font-extrabold text-xl text-indigo-600 shrink-0">
+            <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 font-extrabold text-xl text-brand-600 shrink-0">
                 <img src="/icons/icon.svg" class="w-8 h-8" alt="">
                 {{ config('app.name') }}
             </a>
@@ -34,7 +34,7 @@
                     <a href="{{ route($route) }}" wire:navigate
                        @class([
                            'px-3 py-2 rounded-lg transition',
-                           'text-indigo-700 bg-indigo-50' => request()->routeIs($route),
+                           'text-brand-700 bg-brand-50' => request()->routeIs($route),
                            'text-gray-600 hover:bg-gray-100' => ! request()->routeIs($route),
                        ])>{{ $label }}</a>
                 @endforeach
@@ -42,10 +42,10 @@
 
             <div class="flex items-center gap-2 text-sm shrink-0">
                 @auth
-                    <a href="{{ route('dashboard') }}" wire:navigate class="px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700">{{ __('Dashboard') }}</a>
+                    <a href="{{ route('dashboard') }}" wire:navigate class="px-4 py-2 rounded-full bg-brand-600 text-white font-semibold hover:bg-brand-700">{{ __('Dashboard') }}</a>
                 @else
                     <a href="{{ route('login') }}" class="hidden sm:inline px-4 py-2 text-gray-600 hover:text-gray-900">{{ __('Log in') }}</a>
-                    <a href="{{ route('register') }}" class="px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700">{{ __('Register') }}</a>
+                    <a href="{{ route('register') }}" class="px-4 py-2 rounded-full bg-brand-600 text-white font-semibold hover:bg-brand-700">{{ __('Register') }}</a>
                 @endauth
             </div>
         </nav>
@@ -59,7 +59,7 @@
     <footer class="bg-gray-50 border-t border-gray-100 mt-10">
         <div class="max-w-7xl mx-auto px-6 py-12 grid gap-8 sm:grid-cols-2 md:grid-cols-4">
             <div class="sm:col-span-2 md:col-span-1">
-                <div class="flex items-center gap-2 font-extrabold text-lg text-indigo-600">
+                <div class="flex items-center gap-2 font-extrabold text-lg text-brand-600">
                     <img src="/icons/icon.svg" class="w-7 h-7" alt="">
                     {{ config('app.name') }}
                 </div>
@@ -68,16 +68,16 @@
             <div>
                 <div class="font-semibold text-gray-800 mb-3">{{ __('Product') }}</div>
                 <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="{{ route('how-it-works') }}" wire:navigate class="hover:text-indigo-600">{{ __('How it works') }}</a></li>
-                    <li><a href="{{ route('pricing') }}" wire:navigate class="hover:text-indigo-600">{{ __('Pricing') }}</a></li>
-                    <li><a href="{{ route('merchants') }}" wire:navigate class="hover:text-indigo-600">{{ __('For merchants') }}</a></li>
+                    <li><a href="{{ route('how-it-works') }}" wire:navigate class="hover:text-brand-600">{{ __('How it works') }}</a></li>
+                    <li><a href="{{ route('pricing') }}" wire:navigate class="hover:text-brand-600">{{ __('Pricing') }}</a></li>
+                    <li><a href="{{ route('merchants') }}" wire:navigate class="hover:text-brand-600">{{ __('For merchants') }}</a></li>
                 </ul>
             </div>
             <div>
                 <div class="font-semibold text-gray-800 mb-3">{{ __('Account') }}</div>
                 <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="{{ route('register') }}" class="hover:text-indigo-600">{{ __('Register') }}</a></li>
-                    <li><a href="{{ route('login') }}" class="hover:text-indigo-600">{{ __('Log in') }}</a></li>
+                    <li><a href="{{ route('register') }}" class="hover:text-brand-600">{{ __('Register') }}</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-brand-600">{{ __('Log in') }}</a></li>
                 </ul>
             </div>
             <div>

@@ -11,7 +11,7 @@
          x-cloak {{ $attributes }}>
         <button @click="toggle"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ring-1 transition"
-                :class="state === 'subscribed' ? 'bg-indigo-50 text-indigo-700 ring-indigo-200' : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'">
+                :class="state === 'subscribed' ? 'bg-brand-50 text-brand-700 ring-brand-200' : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'">
             <x-icon name="bell" class="w-4 h-4" />
             <span x-show="state === 'subscribed'">{{ __('Notifications on') }}</span>
             <span x-show="state !== 'subscribed'">{{ __('Enable push notifications') }}</span>

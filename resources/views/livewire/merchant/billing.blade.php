@@ -51,10 +51,10 @@ new #[Layout('layouts.app')] class extends Component {
         @endif
 
         {{-- Balance --}}
-        <div class="bg-white shadow-sm sm:rounded-lg p-6 flex items-center justify-between">
+        <div class="bg-white shadow-soft rounded-2xl p-6 flex items-center justify-between">
             <div>
                 <div class="text-sm text-gray-500">{{ __('Credits balance') }}</div>
-                <div class="text-3xl font-bold text-indigo-600">{{ $profile->credits_balance }}</div>
+                <div class="text-3xl font-bold text-brand-600">{{ $profile->credits_balance }}</div>
             </div>
             <div class="text-end">
                 <div class="text-sm text-gray-500">{{ __('Subscription') }}</div>
@@ -69,15 +69,15 @@ new #[Layout('layouts.app')] class extends Component {
             <h2 class="font-semibold text-gray-900 mb-3">{{ __('Buy lead credits') }}</h2>
             <div class="grid gap-4 sm:grid-cols-3">
                 @foreach ($packages as $pkg)
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col">
+                    <div class="bg-white shadow-soft rounded-2xl p-6 flex flex-col">
                         <div class="font-semibold text-gray-900">{{ $pkg->label() }}</div>
                         <div class="mt-1 text-2xl font-bold text-gray-800">
                             {{ $pkg->isUnlimited() ? __('Unlimited') : $pkg->credits }}
                             <span class="text-sm font-normal text-gray-500">{{ $pkg->isUnlimited() ? '' : __('credits') }}</span>
                         </div>
-                        <div class="mt-1 text-indigo-600 font-semibold">{{ $pkg->price }} {{ __('EGP') }}</div>
+                        <div class="mt-1 text-brand-600 font-semibold">{{ $pkg->price }} {{ __('EGP') }}</div>
                         <button wire:click="buy('{{ $pkg->key }}')"
-                                class="mt-4 w-full px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-md hover:bg-indigo-700">
+                                class="mt-4 w-full px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-md hover:bg-brand-700">
                             {{ __('Buy') }}
                         </button>
                     </div>
@@ -91,9 +91,9 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="grid gap-4 sm:grid-cols-3">
                 @foreach ($plans as $plan)
                     @php($current = $profile->subscription_tier === $plan->tier)
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col {{ $current ? 'ring-2 ring-indigo-500' : '' }}">
+                    <div class="bg-white shadow-soft rounded-2xl p-6 flex flex-col {{ $current ? 'ring-2 ring-brand-500' : '' }}">
                         <div class="font-semibold text-gray-900">{{ $plan->label() }}</div>
-                        <div class="mt-1 text-indigo-600 font-semibold">{{ $plan->price }} {{ __('EGP') }}/{{ __('mo') }}</div>
+                        <div class="mt-1 text-brand-600 font-semibold">{{ $plan->price }} {{ __('EGP') }}/{{ __('mo') }}</div>
                         <button wire:click="subscribe('{{ $plan->key }}')"
                                 @disabled($current)
                                 class="mt-4 w-full px-4 py-2 text-sm font-semibold rounded-md
@@ -106,7 +106,7 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
         {{-- Transaction history --}}
-        <div class="bg-white shadow-sm sm:rounded-lg">
+        <div class="bg-white shadow-soft rounded-2xl">
             <div class="px-6 py-4 border-b text-sm font-medium text-gray-700">{{ __('History') }}</div>
             <div class="divide-y">
                 @forelse ($this->transactions as $tx)

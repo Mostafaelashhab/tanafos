@@ -10,23 +10,23 @@
 <x-marketing-layout>
 
     {{-- Hero --}}
-    <section class="relative overflow-hidden bg-gradient-to-b from-indigo-50 to-white">
-        <div class="absolute -top-24 -start-24 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl"></div>
+    <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 to-white">
+        <div class="absolute -top-24 -start-24 w-96 h-96 bg-brand-200/40 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-32 -end-24 w-96 h-96 bg-violet-200/40 rounded-full blur-3xl"></div>
 
         <div class="relative max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-white/70 ring-1 ring-indigo-100 text-indigo-700 text-sm font-medium mb-6">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/70 ring-1 ring-brand-100 text-brand-700 text-sm font-medium mb-6">
                 سوق الطلب العكسي · مصر
             </span>
             <h1 class="text-4xl sm:text-6xl font-extrabold leading-[1.15] tracking-tight">
                 أنت تطلب…
-                <span class="text-indigo-600">والتجار يتنافسون عليك</span>
+                <span class="text-brand-600">والتجار يتنافسون عليك</span>
             </h1>
             <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
                 بدلاً من البحث في عشرات المتاجر، انشر ما تحتاجه واحصل على أفضل العروض من تجار موثوقين — بسرعة ومجانًا.
             </p>
             <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-                <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-indigo-600 text-white font-semibold text-lg shadow-lg shadow-indigo-600/20 hover:bg-indigo-700">
+                <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-brand-600 text-white font-semibold text-lg shadow-lg shadow-brand-600/20 hover:bg-brand-700">
                     <x-icon name="plus" class="w-5 h-5" /> {{ __('Request products') }}
                 </a>
                 <a href="{{ route('merchants') }}" wire:navigate class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white ring-1 ring-gray-200 text-gray-800 font-semibold text-lg hover:bg-gray-50">
@@ -56,8 +56,8 @@
                 ['inbox', 'استقبل العروض', 'يصلك التجار المناسبون، ويتنافسون بعروضهم عليك.'],
                 ['badge-check', 'اختر الأفضل', 'قارن الأسعار والتقييمات، تفاوض، واختر العرض الفائز.'],
             ] as $i => [$icon, $title, $desc])
-                <div class="relative bg-white rounded-2xl p-7 ring-1 ring-gray-100 shadow-sm">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center mb-4">
+                <div class="relative bg-white rounded-2xl p-7 shadow-soft shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center mb-4">
                         <x-icon :name="$icon" class="w-6 h-6" />
                     </div>
                     <div class="absolute top-7 {{ app()->getLocale() === 'ar' ? 'left-7' : 'right-7' }} text-4xl font-black text-gray-100">{{ $i + 1 }}</div>
@@ -71,19 +71,19 @@
     {{-- Value props --}}
     <section class="bg-gray-50 py-20">
         <div class="max-w-6xl mx-auto px-6 grid gap-10 md:grid-cols-2">
-            <div class="bg-white rounded-2xl p-8 ring-1 ring-gray-100">
-                <h3 class="text-2xl font-bold mb-5 flex items-center gap-2"><span class="text-indigo-600"><x-icon name="shopping-bag" class="w-7 h-7" /></span> للمشترين</h3>
+            <div class="bg-white rounded-2xl p-8 shadow-soft">
+                <h3 class="text-2xl font-bold mb-5 flex items-center gap-2"><span class="text-brand-600"><x-icon name="shopping-bag" class="w-7 h-7" /></span> للمشترين</h3>
                 <ul class="space-y-3 text-gray-700">
                     @foreach (['وفّر وقتك ولا تبحث في عشرات المتاجر', 'احصل على عروض متعددة بسرعة', 'قارن الأسعار فورًا', 'تفاوض مباشرة مع التجار'] as $item)
-                        <li class="flex items-start gap-2"><span class="text-indigo-600 mt-0.5 shrink-0"><x-icon name="check" class="w-5 h-5" /></span><span>{{ $item }}</span></li>
+                        <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5 shrink-0"><x-icon name="check" class="w-5 h-5" /></span><span>{{ $item }}</span></li>
                     @endforeach
                 </ul>
             </div>
-            <div class="bg-white rounded-2xl p-8 ring-1 ring-gray-100">
-                <h3 class="text-2xl font-bold mb-5 flex items-center gap-2"><span class="text-indigo-600"><x-icon name="storefront" class="w-7 h-7" /></span> للتجار</h3>
+            <div class="bg-white rounded-2xl p-8 shadow-soft">
+                <h3 class="text-2xl font-bold mb-5 flex items-center gap-2"><span class="text-brand-600"><x-icon name="storefront" class="w-7 h-7" /></span> للتجار</h3>
                 <ul class="space-y-3 text-gray-700">
                     @foreach (['عملاء جاهزون للشراء', 'تقليل تكاليف الإعلانات', 'معدلات تحويل أعلى', 'اكتساب عملاء من منطقتك'] as $item)
-                        <li class="flex items-start gap-2"><span class="text-indigo-600 mt-0.5 shrink-0"><x-icon name="check" class="w-5 h-5" /></span><span>{{ $item }}</span></li>
+                        <li class="flex items-start gap-2"><span class="text-brand-600 mt-0.5 shrink-0"><x-icon name="check" class="w-5 h-5" /></span><span>{{ $item }}</span></li>
                     @endforeach
                 </ul>
             </div>
@@ -96,8 +96,8 @@
         <p class="text-center text-gray-500 mb-12">من الإلكترونيات إلى العقارات — اطلب أي شيء.</p>
         <div class="flex flex-wrap justify-center gap-3">
             @foreach ($categories as $category)
-                <span class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white ring-1 ring-gray-200 text-gray-700 font-medium hover:ring-indigo-300 hover:text-indigo-700 transition">
-                    <x-icon name="tag" class="w-4 h-4 text-indigo-400" /> {{ $category->name_ar }}
+                <span class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white ring-1 ring-gray-200 text-gray-700 font-medium hover:ring-brand-300 hover:text-brand-700 transition">
+                    <x-icon name="tag" class="w-4 h-4 text-brand-400" /> {{ $category->name_ar }}
                 </span>
             @endforeach
         </div>
@@ -113,7 +113,7 @@
                 ['كم يستغرق وصول العروض؟', 'يبدأ وصول العروض خلال دقائق من نشر طلبك بعد مطابقته بالتجار المناسبين.'],
                 ['هل يمكنني التفاوض؟', 'بالتأكيد — يمكنك محادثة التجار مباشرة والتفاوض قبل اختيار العرض الفائز.'],
             ] as [$q, $a])
-                <details class="group bg-white rounded-xl ring-1 ring-gray-100 p-5">
+                <details class="group bg-white rounded-xl shadow-soft p-5">
                     <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900 list-none">
                         {{ $q }}
                         <span class="text-gray-400 group-open:rotate-180 transition"><x-icon name="chevron-down" class="w-5 h-5" /></span>
@@ -126,11 +126,11 @@
 
     {{-- CTA --}}
     <section class="max-w-5xl mx-auto px-6 pb-24">
-        <div class="rounded-3xl bg-indigo-600 px-8 py-14 text-center text-white relative overflow-hidden">
+        <div class="rounded-3xl bg-brand-600 px-8 py-14 text-center text-white relative overflow-hidden">
             <div class="absolute -top-16 -end-10 w-64 h-64 bg-white/10 rounded-full blur-2xl"></div>
             <h2 class="relative text-3xl font-extrabold mb-3">اطلب أي شيء. واحصل على أفضل عرض.</h2>
-            <p class="relative text-indigo-100 mb-8">بدلاً من البحث… دع السوق يأتي إليك.</p>
-            <a href="{{ route('register') }}" class="relative inline-block px-8 py-3 rounded-full bg-white text-indigo-700 font-bold text-lg hover:bg-indigo-50">
+            <p class="relative text-brand-100 mb-8">بدلاً من البحث… دع السوق يأتي إليك.</p>
+            <a href="{{ route('register') }}" class="relative inline-block px-8 py-3 rounded-full bg-white text-brand-700 font-bold text-lg hover:bg-brand-50">
                 ابدأ الآن مجانًا
             </a>
         </div>

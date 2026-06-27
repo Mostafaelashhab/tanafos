@@ -45,9 +45,9 @@ new #[Layout('layouts.app')] class extends Component {
                     <x-icon name="search" class="w-5 h-5" />
                 </span>
                 <input wire:model.live.debounce.300ms="search" type="text" placeholder="{{ __('Search users…') }}"
-                       class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-indigo-500" />
+                       class="w-full {{ app()->getLocale() === 'ar' ? 'pr-10' : 'pl-10' }} border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500" />
             </div>
-            <select wire:model.live="type" class="border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+            <select wire:model.live="type" class="border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500 text-sm">
                 <option value="all">{{ __('All') }}</option>
                 <option value="buyer">{{ __('Buyers') }}</option>
                 <option value="merchant">{{ __('Merchants') }}</option>
@@ -55,11 +55,11 @@ new #[Layout('layouts.app')] class extends Component {
             </select>
         </div>
 
-        <div class="bg-white rounded-xl ring-1 ring-gray-100 divide-y divide-gray-50 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-soft divide-y divide-gray-50 overflow-hidden">
             @forelse ($this->users as $u)
                 <div class="px-5 py-4 flex items-center justify-between gap-4">
                     <div class="flex items-center gap-3 min-w-0">
-                        <span class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold shrink-0">
+                        <span class="w-9 h-9 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold shrink-0">
                             {{ mb_substr($u->name, 0, 1) }}
                         </span>
                         <div class="min-w-0">
@@ -70,7 +70,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <span @class([
                         'shrink-0 px-2.5 py-0.5 rounded-full text-xs font-medium',
                         'bg-emerald-100 text-emerald-700' => $u->type === 'buyer',
-                        'bg-indigo-100 text-indigo-700' => $u->type === 'merchant',
+                        'bg-brand-100 text-brand-700' => $u->type === 'merchant',
                         'bg-gray-800 text-white' => $u->type === 'admin',
                     ])>{{ __(ucfirst($u->type)) }}</span>
                 </div>

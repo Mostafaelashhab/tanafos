@@ -36,15 +36,15 @@ new #[Layout('layouts.app')] class extends Component {
             <h1 class="font-bold text-2xl text-gray-900">{{ __('Notifications') }}</h1>
             <div class="flex items-center gap-3">
                 <x-push-button />
-                <button wire:click="markAllRead" class="text-sm text-indigo-600 hover:underline">{{ __('Mark all read') }}</button>
+                <button wire:click="markAllRead" class="text-sm text-brand-600 hover:underline">{{ __('Mark all read') }}</button>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl ring-1 ring-gray-100 divide-y divide-gray-50 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-soft divide-y divide-gray-50 overflow-hidden">
             @forelse ($this->notifications as $note)
                 <button wire:click="open('{{ $note->id }}')"
-                        class="w-full text-start px-5 py-4 hover:bg-gray-50 flex gap-3 {{ $note->read_at ? '' : 'bg-indigo-50/40' }}">
-                    <span class="mt-0.5 text-indigo-500 shrink-0">
+                        class="w-full text-start px-5 py-4 hover:bg-gray-50 flex gap-3 {{ $note->read_at ? '' : 'bg-brand-50/40' }}">
+                    <span class="mt-0.5 text-brand-500 shrink-0">
                         <x-icon :name="\App\Support\Notifications::icon($note)" class="w-5 h-5" />
                     </span>
                     <span class="min-w-0 flex-1">
@@ -52,7 +52,7 @@ new #[Layout('layouts.app')] class extends Component {
                         <span class="block text-xs text-gray-400 mt-0.5">{{ $note->created_at->diffForHumans() }}</span>
                     </span>
                     @unless ($note->read_at)
-                        <span class="mt-2 w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+                        <span class="mt-2 w-2 h-2 rounded-full bg-brand-500 shrink-0"></span>
                     @endunless
                 </button>
             @empty

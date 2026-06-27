@@ -15,7 +15,7 @@
         'silver' => 'bg-gray-200 text-gray-700',
         'gold' => 'bg-amber-100 text-amber-800',
         'diamond' => 'bg-cyan-100 text-cyan-800',
-        'elite' => 'bg-indigo-100 text-indigo-800',
+        'elite' => 'bg-brand-100 text-brand-800',
     ];
 @endphp
 

@@ -20,10 +20,27 @@ Route::post('logout', function (Logout $logout) {
 
 // Type-aware dashboard: merchants and buyers see different homes.
 Route::get('dashboard', function () {
-    return Auth::user()->isMerchant()
+    $user = Auth::user();
+
+    // First-run onboarding for buyers & merchants.
+    if (in_array($user->type, ['buyer', 'merchant'], true) && ! $user->onboarded_at) {
+        return redirect()->route('onboarding');
+    }
+
+    return $user->isMerchant()
         ? view('dashboard.merchant')
         : view('dashboard.buyer');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// First-run onboarding screen.
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('welcome', 'onboarding')->name('onboarding');
+    Route::post('welcome', function () {
+        Auth::user()->forceFill(['onboarded_at' => now()])->save();
+
+        return redirect()->route('dashboard');
+    })->name('onboarding.complete');
+});
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

@@ -11,7 +11,7 @@
     <div>
         <x-input-label for="category_id" :value="__('Category')" />
         <select wire:model="form.category_id" id="category_id"
-                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm">
             <option value="">{{ __('Select a category') }}</option>
             @foreach ($categories as $parent)
                 <optgroup label="{{ $parent->label() }}">
@@ -51,7 +51,7 @@
         <div>
             <x-input-label for="condition" :value="__('Condition')" />
             <select wire:model="form.condition" id="condition"
-                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm">
                 <option value="any">{{ __('Any') }}</option>
                 <option value="new">{{ __('New') }}</option>
                 <option value="used">{{ __('Used') }}</option>
@@ -60,7 +60,7 @@
         <div>
             <x-input-label for="urgency" :value="__('Urgency')" />
             <select wire:model="form.urgency" id="urgency"
-                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm">
                 <option value="low">{{ __('Low') }}</option>
                 <option value="normal">{{ __('Normal') }}</option>
                 <option value="high">{{ __('High') }}</option>
@@ -69,7 +69,7 @@
         <div>
             <x-input-label for="payment_method" :value="__('Payment method')" />
             <select wire:model="form.payment_method" id="payment_method"
-                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm">
                 <option value="any">{{ __('Any') }}</option>
                 <option value="cash">{{ __('Cash') }}</option>
                 <option value="card">{{ __('Card') }}</option>
@@ -82,7 +82,7 @@
     <div class="grid gap-4 sm:grid-cols-2 items-end">
         <label class="flex items-center gap-2 mt-1">
             <input type="checkbox" wire:model="form.warranty_required"
-                   class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                   class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
             <span class="text-sm text-gray-700">{{ __('Warranty required') }}</span>
         </label>
         <div>
@@ -95,7 +95,7 @@
     <div>
         <x-input-label for="description" :value="__('Additional details')" />
         <textarea wire:model="form.description" id="description" rows="4"
-                  class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+                  class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm"></textarea>
         <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
     </div>
 </div>

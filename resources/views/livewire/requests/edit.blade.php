@@ -57,7 +57,7 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
         <h1 class="font-semibold text-2xl text-gray-800 mb-6">{{ __('Edit request') }}</h1>
 
-        <form wire:submit="save" class="bg-white shadow-sm sm:rounded-lg p-6 sm:p-8">
+        <form wire:submit="save" class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
             @include('requests._fields', ['categories' => $this->categories])
 
             <div class="mt-6">

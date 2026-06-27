@@ -53,7 +53,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-brand-600 shadow-sm focus:ring-brand-500" name="remember">
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
         </div>
@@ -61,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="flex items-center justify-between mt-4">
             <label for="remember" class="hidden"></label>
             @if (Route::has('password.request'))
-                <a class="text-sm text-indigo-600 hover:underline" href="{{ route('password.request') }}" wire:navigate>
+                <a class="text-sm text-brand-600 hover:underline" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -74,7 +74,7 @@ new #[Layout('layouts.guest')] class extends Component
         @if (Route::has('register'))
             <p class="mt-6 text-center text-sm text-gray-500">
                 {{ __("Don't have an account?") }}
-                <a href="{{ route('register') }}" wire:navigate class="text-indigo-600 font-semibold hover:underline">{{ __('Register') }}</a>
+                <a href="{{ route('register') }}" wire:navigate class="text-brand-600 font-semibold hover:underline">{{ __('Register') }}</a>
             </p>
         @endif
     </form>

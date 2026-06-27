@@ -33,10 +33,10 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
             @foreach ($stats as $stat)
-                <div class="bg-white rounded-xl ring-1 ring-gray-100 p-5">
+                <div class="bg-white rounded-xl shadow-soft p-5">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-gray-500">{{ $stat['label'] }}</span>
-                        <span class="text-indigo-400"><x-icon :name="$stat['icon']" class="w-5 h-5" /></span>
+                        <span class="text-brand-400"><x-icon :name="$stat['icon']" class="w-5 h-5" /></span>
                     </div>
                     <div class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($stat['value']) }}</div>
                 </div>

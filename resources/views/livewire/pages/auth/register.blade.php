@@ -69,12 +69,12 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-label :value="__('I want to')" />
             <div class="mt-1 grid grid-cols-2 gap-3">
                 <label class="cursor-pointer rounded-lg border p-3 text-center text-sm transition flex items-center justify-center gap-2
-                              {{ $type === 'buyer' ? 'border-indigo-500 bg-indigo-50 text-indigo-700 font-semibold' : 'border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                              {{ $type === 'buyer' ? 'border-brand-500 bg-brand-50 text-brand-700 font-semibold' : 'border-gray-200 text-gray-600 hover:bg-gray-50' }}">
                     <input type="radio" wire:model.live="type" value="buyer" class="sr-only" />
                     <x-icon name="shopping-bag" class="w-5 h-5" /> {{ __('Request products') }}
                 </label>
                 <label class="cursor-pointer rounded-lg border p-3 text-center text-sm transition flex items-center justify-center gap-2
-                              {{ $type === 'merchant' ? 'border-indigo-500 bg-indigo-50 text-indigo-700 font-semibold' : 'border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                              {{ $type === 'merchant' ? 'border-brand-500 bg-brand-50 text-brand-700 font-semibold' : 'border-gray-200 text-gray-600 hover:bg-gray-50' }}">
                     <input type="radio" wire:model.live="type" value="merchant" class="sr-only" />
                     <x-icon name="storefront" class="w-5 h-5" /> {{ __('Sell as a merchant') }}
                 </label>
@@ -134,7 +134,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         <p class="mt-6 text-center text-sm text-gray-500">
             {{ __('Already registered?') }}
-            <a href="{{ route('login') }}" wire:navigate class="text-indigo-600 font-semibold hover:underline">{{ __('Log in') }}</a>
+            <a href="{{ route('login') }}" wire:navigate class="text-brand-600 font-semibold hover:underline">{{ __('Log in') }}</a>
         </p>
     </form>
 </div>

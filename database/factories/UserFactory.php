@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'type' => 'buyer',
             'phone' => fake()->optional()->e164PhoneNumber(),
             'locale' => 'ar',
+            'onboarded_at' => now(), // factory users skip onboarding; real registrations get null
             'remember_token' => Str::random(10),
         ];
     }

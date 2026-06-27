@@ -108,6 +108,24 @@ port — only viable on the **VPS**, not shared hosting.
 
 ---
 
+## 5b. Replacing an OLD PWA on the same domain (icon cache)
+
+If a previous PWA ran on this domain, devices/browsers cache its service worker,
+manifest, and **home-screen icon**. This release handles most of it automatically:
+
+- The service worker `VERSION` is bumped (`public/sw.js`) → on activate it **deletes every cache that doesn't match**, purging the old PWA's caches.
+- New, freshly-named **PNG icons** (`icon-192/512/180/maskable`) in the new brand, plus `?v=2` on the manifest/icon links → browsers fetch the new icon, not the cached old one.
+- The registration script reloads once when the new SW replaces the old one.
+
+**On every future deploy that changes assets/icon:** bump `VERSION` in `public/sw.js`
+(e.g. `v2` → `v3`) so the purge runs again.
+
+**Caveat you can't avoid programmatically:** a user who already *installed* the old
+PWA to their home screen — especially on **iOS** — keeps the old launcher icon until
+they **remove and re-add** it. New installs and Android (which re-reads the manifest)
+pick up the new icon automatically. Tell existing users to delete the old icon and
+reinstall once.
+
 ## 6. Redeploys
 
 ```bash

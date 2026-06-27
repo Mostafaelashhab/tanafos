@@ -40,13 +40,13 @@ new #[Layout('layouts.app')] class extends Component {
                 <button wire:click="$set('status', '{{ $key }}')"
                         @class([
                             'px-3 py-1.5 rounded-full text-sm border',
-                            'bg-indigo-600 text-white border-indigo-600' => $status === $key,
+                            'bg-brand-600 text-white border-brand-600' => $status === $key,
                             'bg-white text-gray-600 border-gray-200' => $status !== $key,
                         ])>{{ $label }}</button>
             @endforeach
         </div>
 
-        <div class="bg-white rounded-xl ring-1 ring-gray-100 divide-y divide-gray-50 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-soft divide-y divide-gray-50 overflow-hidden">
             @forelse ($this->requests as $request)
                 <div class="px-5 py-4 flex items-center justify-between gap-4">
                     <div class="min-w-0">

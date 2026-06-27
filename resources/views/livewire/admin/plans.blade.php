@@ -119,7 +119,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         {{-- Editor --}}
         @if ($showForm)
-            <div class="bg-white rounded-2xl ring-1 ring-indigo-100 p-6 mb-6">
+            <div class="bg-white rounded-2xl ring-1 ring-brand-100 p-6 mb-6">
                 <h2 class="font-semibold text-gray-900 mb-4">
                     {{ $editId ? __('Edit') : __('Add') }} — {{ $type === 'package' ? __('Credit package') : __('Plan') }}
                 </h2>
@@ -151,7 +151,7 @@ new #[Layout('layouts.app')] class extends Component {
                         </div>
                         <div>
                             <x-input-label :value="__('Grants tier (for unlimited)')" />
-                            <select wire:model="grants_tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-indigo-500">
+                            <select wire:model="grants_tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
                                 <option value="">—</option>
                                 <option value="basic">{{ __('Basic') }}</option>
                                 <option value="gold">{{ __('Gold') }}</option>
@@ -161,7 +161,7 @@ new #[Layout('layouts.app')] class extends Component {
                     @else
                         <div>
                             <x-input-label :value="__('Tier')" />
-                            <select wire:model="tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-indigo-500">
+                            <select wire:model="tier" class="block mt-1 w-full border-gray-200 rounded-lg focus:border-brand-500 focus:ring-brand-500">
                                 <option value="basic">{{ __('Basic') }}</option>
                                 <option value="gold">{{ __('Gold') }}</option>
                                 <option value="premium">{{ __('Premium') }}</option>
@@ -169,7 +169,7 @@ new #[Layout('layouts.app')] class extends Component {
                         </div>
                     @endif
                     <label class="flex items-center gap-2 mt-6">
-                        <input type="checkbox" wire:model="is_active" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                        <input type="checkbox" wire:model="is_active" class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
                         <span class="text-sm text-gray-700">{{ __('Active') }}</span>
                     </label>
                 </div>
@@ -181,10 +181,10 @@ new #[Layout('layouts.app')] class extends Component {
         @endif
 
         {{-- Packages --}}
-        <div class="bg-white rounded-2xl ring-1 ring-gray-100 overflow-hidden mb-6">
+        <div class="bg-white rounded-2xl shadow-soft overflow-hidden mb-6">
             <div class="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
                 <span class="font-semibold text-gray-900">{{ __('Credit packages') }}</span>
-                <button wire:click="start('package')" class="inline-flex items-center gap-1 text-sm text-indigo-600 font-medium">
+                <button wire:click="start('package')" class="inline-flex items-center gap-1 text-sm text-brand-600 font-medium">
                     <x-icon name="plus" class="w-4 h-4" /> {{ __('Add') }}
                 </button>
             </div>
@@ -201,7 +201,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 'bg-emerald-100 text-emerald-700' => $p->is_active,
                                 'bg-gray-100 text-gray-500' => ! $p->is_active,
                             ])>{{ $p->is_active ? __('Active') : __('Inactive') }}</button>
-                            <button wire:click="edit('package', {{ $p->id }})" class="text-gray-400 hover:text-indigo-600"><x-icon name="pencil" class="w-4 h-4" /></button>
+                            <button wire:click="edit('package', {{ $p->id }})" class="text-gray-400 hover:text-brand-600"><x-icon name="pencil" class="w-4 h-4" /></button>
                             <button wire:click="remove('package', {{ $p->id }})" wire:confirm="{{ __('Delete?') }}" class="text-gray-400 hover:text-red-600"><x-icon name="trash" class="w-4 h-4" /></button>
                         </div>
                     </div>
@@ -210,10 +210,10 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
         {{-- Plans --}}
-        <div class="bg-white rounded-2xl ring-1 ring-gray-100 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
             <div class="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
                 <span class="font-semibold text-gray-900">{{ __('Subscription plans') }}</span>
-                <button wire:click="start('plan')" class="inline-flex items-center gap-1 text-sm text-indigo-600 font-medium">
+                <button wire:click="start('plan')" class="inline-flex items-center gap-1 text-sm text-brand-600 font-medium">
                     <x-icon name="plus" class="w-4 h-4" /> {{ __('Add') }}
                 </button>
             </div>
@@ -230,7 +230,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 'bg-emerald-100 text-emerald-700' => $p->is_active,
                                 'bg-gray-100 text-gray-500' => ! $p->is_active,
                             ])>{{ $p->is_active ? __('Active') : __('Inactive') }}</button>
-                            <button wire:click="edit('plan', {{ $p->id }})" class="text-gray-400 hover:text-indigo-600"><x-icon name="pencil" class="w-4 h-4" /></button>
+                            <button wire:click="edit('plan', {{ $p->id }})" class="text-gray-400 hover:text-brand-600"><x-icon name="pencil" class="w-4 h-4" /></button>
                             <button wire:click="remove('plan', {{ $p->id }})" wire:confirm="{{ __('Delete?') }}" class="text-gray-400 hover:text-red-600"><x-icon name="trash" class="w-4 h-4" /></button>
                         </div>
                     </div>

@@ -70,7 +70,7 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
         @php($request = $lead->request)
 
-        <div class="bg-white shadow-sm sm:rounded-lg p-6 sm:p-8">
+        <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <h1 class="font-semibold text-2xl text-gray-900">{{ $request->title }}</h1>
@@ -78,7 +78,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
                 <div class="text-end">
                     <div class="text-xs text-gray-400">{{ __('Match') }}</div>
-                    <div class="text-2xl font-semibold text-indigo-600">{{ $lead->quality_score }}%</div>
+                    <div class="text-2xl font-semibold text-brand-600">{{ $lead->quality_score }}%</div>
                 </div>
             </div>
 
@@ -116,16 +116,16 @@ new #[Layout('layouts.app')] class extends Component {
 
         {{-- Offer: already submitted, form, or blocked --}}
         @if ($lead->offer)
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-soft rounded-2xl p-6">
                 <div class="flex items-center justify-between">
                     <h2 class="font-semibold text-gray-900">{{ __('Your offer') }}</h2>
-                    <span class="text-lg font-semibold text-indigo-600">{{ $lead->offer->price }} {{ $lead->offer->currency }}</span>
+                    <span class="text-lg font-semibold text-brand-600">{{ $lead->offer->price }} {{ $lead->offer->currency }}</span>
                 </div>
                 <p class="mt-2 text-sm text-gray-500">{{ __('Submitted. The buyer will review and respond.') }}</p>
-                <button wire:click="chat" class="mt-3 text-sm text-indigo-600 underline">{{ __('Chat with buyer') }}</button>
+                <button wire:click="chat" class="mt-3 text-sm text-brand-600 underline">{{ __('Chat with buyer') }}</button>
             </div>
         @elseif ($canOffer)
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 sm:p-8">
+            <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
                 <h2 class="font-semibold text-gray-900 mb-4">{{ __('Submit your offer') }}</h2>
 
                 @unless ($onSubscription)
@@ -156,13 +156,13 @@ new #[Layout('layouts.app')] class extends Component {
                     <div>
                         <x-input-label for="offer_description" :value="__('Offer details')" />
                         <textarea wire:model="form.description" id="offer_description" rows="3"
-                                  class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+                                  class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm"></textarea>
                         <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
                     </div>
 
                     <label class="flex items-center gap-2">
                         <input type="checkbox" wire:model="form.negotiation_enabled"
-                               class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                               class="rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
                         <span class="text-sm text-gray-700">{{ __('Allow negotiation') }}</span>
                     </label>
 
@@ -172,7 +172,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </form>
             </div>
         @else
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 text-gray-500">
+            <div class="bg-white shadow-soft rounded-2xl p-6 text-gray-500">
                 {{ __('This lead is no longer open for offers.') }}
             </div>
         @endif

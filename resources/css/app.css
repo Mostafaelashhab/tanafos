@@ -2,11 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* PWA / app-shell niceties */
+/* PWA / app-shell niceties — make it feel like a native app, not a webpage */
 @layer base {
-    html { -webkit-tap-highlight-color: transparent; }
-    body { overscroll-behavior-y: none; }
+    html { -webkit-tap-highlight-color: transparent; height: 100%; }
+    body {
+        overscroll-behavior: none;          /* no rubber-band white flash */
+        -webkit-touch-callout: none;        /* no long-press menu on UI */
+        text-rendering: optimizeLegibility;
+    }
+    /* UI chrome isn't selectable (like a native app); content text stays selectable */
+    header, nav, button, .app-chrome, .tabbar { user-select: none; -webkit-user-select: none; }
+    input, textarea, [contenteditable] { user-select: text; -webkit-user-select: text; }
     [x-cloak] { display: none !important; }
+}
+
+/* App-like page transition on wire:navigate */
+@media (prefers-reduced-motion: no-preference) {
+    .page-enter { animation: pageEnter .28s cubic-bezier(.22,.61,.36,1) both; }
+    @keyframes pageEnter {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: none; }
+    }
+}
+
+/* ---- Splash screen (installed app only) ---- */
+#splash {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+    background: linear-gradient(160deg, #6c5ce7, #5a47cf); color: #fff;
+    transition: opacity .45s ease;
+}
+html.standalone #splash { display: flex; }
+#splash.hide { opacity: 0; pointer-events: none; }
+#splash .mark { width: 88px; height: 88px; animation: splashPop .5s cubic-bezier(.2,.8,.3,1.2) both; }
+#splash .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: .6; animation: splashBlink 1s ease infinite; }
+@keyframes splashPop { from { transform: scale(.7); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes splashBlink { 0%,100% { opacity: .25; } 50% { opacity: .9; } }
+
+/* ---- Pull to refresh ---- */
+#ptr {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 35;
+    display: flex; justify-content: center; pointer-events: none;
+    transform: translateY(-44px); opacity: 0;
+}
+#ptr .ring {
+    margin-top: 12px; width: 30px; height: 30px; border-radius: 50%;
+    border: 3px solid rgba(108,92,231,.25); border-top-color: #6c5ce7;
+    background: #fff;
+}
+#ptr.spin { transform: translateY(16px); opacity: 1; transition: transform .2s ease; }
+#ptr.spin .ring { animation: ptrSpin .7s linear infinite; }
+@keyframes ptrSpin { to { transform: rotate(360deg); } }
+
+/* ---- Skeleton shimmer ---- */
+.skel {
+    background: linear-gradient(90deg, #ece9f7 25%, #f6f5fb 37%, #ece9f7 63%);
+    background-size: 400% 100%; animation: shimmer 1.4s ease infinite; border-radius: 16px;
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) {
+    .skel, #ptr.spin .ring, #splash .mark, #splash .dot { animation: none; }
 }
 
 @layer utilities {
@@ -14,6 +69,11 @@
     .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     .pt-safe { padding-top: env(safe-area-inset-top); }
     .h-safe-bottom { height: calc(4rem + env(safe-area-inset-bottom)); }
+
+    /* Soft lavender app background + soft elevation (Figma look) */
+    .bg-app { background: #f5f4fb; }
+    .shadow-soft { box-shadow: 0 12px 30px -14px rgba(76, 70, 140, .25); }
+    .shadow-fab { box-shadow: 0 12px 24px -6px rgba(108, 92, 231, .55); }
 
     /* Hide scrollbars on horizontal chip rows */
     .no-scrollbar::-webkit-scrollbar { display: none; }

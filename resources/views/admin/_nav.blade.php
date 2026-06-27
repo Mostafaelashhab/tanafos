@@ -10,7 +10,7 @@
         <a href="{{ route($route) }}" wire:navigate
            @class([
                'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap',
-               'bg-indigo-600 text-white' => request()->routeIs($route),
+               'bg-brand-600 text-white' => request()->routeIs($route),
                'bg-white ring-1 ring-gray-200 text-gray-600 hover:bg-gray-50' => ! request()->routeIs($route),
            ])>
             <x-icon :name="$icon" class="w-4 h-4" />

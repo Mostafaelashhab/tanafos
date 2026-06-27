@@ -118,7 +118,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="rounded-md bg-green-50 p-4 text-sm text-green-700">{{ session('status') }}</div>
         @endif
 
-        <div class="bg-white shadow-sm sm:rounded-lg p-6 sm:p-8">
+        <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <h1 class="font-semibold text-2xl text-gray-900">{{ $request->title }}</h1>
@@ -157,7 +157,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             @if (! empty($request->specifications))
                 <div class="mt-6">
-                    <h2 class="text-sm font-medium text-gray-500">{{ __('Specifications') }} <span class="text-xs text-indigo-400">✨ {{ __('AI') }}</span></h2>
+                    <h2 class="text-sm font-medium text-gray-500">{{ __('Specifications') }} <span class="text-xs text-brand-400">✨ {{ __('AI') }}</span></h2>
                     <dl class="mt-2 grid grid-cols-2 gap-2 text-sm">
                         @foreach ($request->specifications as $key => $value)
                             <div class="flex justify-between gap-2 border-b border-gray-100 py-1">
@@ -179,7 +179,7 @@ new #[Layout('layouts.app')] class extends Component {
                         <x-primary-button wire:click="publish">{{ __('Publish') }}</x-primary-button>
                     @endif
                     <a href="{{ route('requests.edit', $request) }}" wire:navigate
-                       class="text-sm text-indigo-600 underline">{{ __('Edit') }}</a>
+                       class="text-sm text-brand-600 underline">{{ __('Edit') }}</a>
                 @endcan
                 @can('delete', $request)
                     <button wire:click="delete" wire:confirm="{{ __('Delete this request?') }}"
@@ -190,13 +190,13 @@ new #[Layout('layouts.app')] class extends Component {
 
 {{-- Offers comparison --}}
         @php($offers = $this->offers())
-        <div class="bg-white shadow-sm sm:rounded-lg">
+        <div class="bg-white shadow-soft rounded-2xl">
             <div class="px-6 py-4 border-b flex items-center justify-between">
                 <h2 class="font-semibold text-gray-900">{{ __('Offers') }} ({{ $offers->count() }})</h2>
                 @if ($offers->count() > 1)
                     <div class="flex items-center gap-2 text-sm">
                         <span class="text-gray-500">{{ __('Sort by') }}</span>
-                        <select wire:model.live="sort" class="text-sm border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                        <select wire:model.live="sort" class="text-sm border-gray-300 rounded-md focus:border-brand-500 focus:ring-brand-500">
                             <option value="price">{{ __('Lowest price') }}</option>
                             <option value="delivery">{{ __('Fastest delivery') }}</option>
                             <option value="rating">{{ __('Top rated') }}</option>
@@ -229,7 +229,7 @@ new #[Layout('layouts.app')] class extends Component {
                             @endif
                         </div>
                         <div class="text-end shrink-0">
-                            <div class="text-xl font-semibold text-indigo-600">{{ $offer->price }} {{ $offer->currency }}</div>
+                            <div class="text-xl font-semibold text-brand-600">{{ $offer->price }} {{ $offer->currency }}</div>
                             @if ($offer->negotiation_enabled)
                                 <div class="text-xs text-green-600 mt-1">{{ __('Negotiable') }}</div>
                             @endif
@@ -240,7 +240,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                             <div class="mt-3 flex flex-col items-stretch gap-2">
                                 <button wire:click="chat({{ $offer->id }})"
-                                        class="text-sm text-indigo-600 underline">{{ __('Chat') }}</button>
+                                        class="text-sm text-brand-600 underline">{{ __('Chat') }}</button>
                                 @if (! $request->isCompleted())
                                     <x-primary-button wire:click="selectWinner({{ $offer->id }})"
                                                       wire:confirm="{{ __('Select this offer as the winner?') }}">
@@ -258,7 +258,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         {{-- Review the winning merchant --}}
         @if ($request->isCompleted())
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 sm:p-8">
+            <div class="bg-white shadow-soft rounded-2xl p-6 sm:p-8">
                 @if ($request->review)
                     <h2 class="font-semibold text-gray-900">{{ __('Your review') }}</h2>
                     <div class="mt-2 text-amber-500">{{ str_repeat('★', $request->review->rating) }}{{ str_repeat('☆', 5 - $request->review->rating) }}</div>
@@ -272,7 +272,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <form wire:submit="submitReview" class="space-y-4">
                         <div>
                             <x-input-label :value="__('Rating')" />
-                            <select wire:model="rating" class="mt-1 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            <select wire:model="rating" class="mt-1 border-gray-300 rounded-md focus:border-brand-500 focus:ring-brand-500">
                                 @for ($i = 5; $i >= 1; $i--)
                                     <option value="{{ $i }}">{{ $i }} ★</option>
                                 @endfor
@@ -282,7 +282,7 @@ new #[Layout('layouts.app')] class extends Component {
                         <div>
                             <x-input-label for="comment" :value="__('Comment')" />
                             <textarea wire:model="comment" id="comment" rows="3"
-                                      class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+                                      class="block mt-1 w-full border-gray-300 focus:border-brand-500 focus:ring-brand-500 rounded-md shadow-sm"></textarea>
                             <x-input-error :messages="$errors->get('comment')" class="mt-2" />
                         </div>
                         <div class="flex justify-end">

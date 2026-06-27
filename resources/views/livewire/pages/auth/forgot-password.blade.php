@@ -56,7 +56,7 @@ new #[Layout('layouts.guest')] class extends Component
         </x-primary-button>
 
         <p class="mt-6 text-center text-sm text-gray-500">
-            <a href="{{ route('login') }}" wire:navigate class="text-indigo-600 font-semibold hover:underline">{{ __('Back to log in') }}</a>
+            <a href="{{ route('login') }}" wire:navigate class="text-brand-600 font-semibold hover:underline">{{ __('Back to log in') }}</a>
         </p>
     </form>
 </div>

@@ -39,7 +39,7 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="flex items-center justify-between mb-6">
             <h1 class="font-bold text-2xl text-gray-900">{{ __('My requests') }}</h1>
             <a href="{{ route('requests.create') }}" wire:navigate
-               class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full hover:bg-indigo-700">
+               class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-full hover:bg-brand-700">
                 <x-icon name="plus" class="w-5 h-5" /> {{ __('New request') }}
             </a>
         </div>
@@ -56,7 +56,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <button wire:click="$set('filter', '{{ $key }}')"
                         @class([
                             'px-4 py-1.5 rounded-full text-sm font-medium border transition',
-                            'bg-indigo-600 text-white border-indigo-600' => $filter === $key,
+                            'bg-brand-600 text-white border-brand-600' => $filter === $key,
                             'bg-white text-gray-600 border-gray-200 hover:bg-gray-50' => $filter !== $key,
                         ])>
                     {{ $label }}
@@ -64,7 +64,7 @@ new #[Layout('layouts.app')] class extends Component {
             @endforeach
         </div>
 
-        <div class="bg-white rounded-2xl ring-1 ring-gray-100 divide-y divide-gray-50 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-soft divide-y divide-gray-50 overflow-hidden">
             @forelse ($this->requests as $request)
                 <a href="{{ route('requests.show', $request) }}" wire:navigate
                    class="flex items-center justify-between gap-3 p-4 hover:bg-gray-50">
@@ -83,7 +83,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="p-12 text-center text-gray-400">
                     <x-icon name="document" class="w-10 h-10 mx-auto mb-3 text-gray-300" />
                     <p>{{ __('No requests yet.') }}</p>
-                    <a href="{{ route('requests.create') }}" wire:navigate class="mt-2 inline-block text-indigo-600 font-medium hover:underline">{{ __('Publish your first request') }}</a>
+                    <a href="{{ route('requests.create') }}" wire:navigate class="mt-2 inline-block text-brand-600 font-medium hover:underline">{{ __('Publish your first request') }}</a>
                 </div>
             @endforelse
         </div>

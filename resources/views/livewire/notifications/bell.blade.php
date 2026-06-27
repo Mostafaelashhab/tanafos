@@ -44,19 +44,19 @@ new class extends Component {
     </button>
 
     <div x-show="open" x-cloak @click.outside="open = false" x-transition
-         class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-80 max-w-[90vw] bg-white rounded-xl shadow-lg ring-1 ring-gray-100 overflow-hidden z-50">
+         class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-80 max-w-[90vw] bg-white rounded-xl shadow-lg shadow-soft overflow-hidden z-50">
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <span class="font-semibold text-gray-900">{{ __('Notifications') }}</span>
             @if ($this->unreadCount > 0)
-                <button wire:click="markAllRead" class="text-xs text-indigo-600 hover:underline">{{ __('Mark all read') }}</button>
+                <button wire:click="markAllRead" class="text-xs text-brand-600 hover:underline">{{ __('Mark all read') }}</button>
             @endif
         </div>
 
         <div class="max-h-96 overflow-y-auto divide-y divide-gray-50">
             @forelse ($this->items as $note)
                 <button wire:click="open('{{ $note->id }}')"
-                        class="w-full text-start px-4 py-3 hover:bg-gray-50 flex gap-3 {{ $note->read_at ? '' : 'bg-indigo-50/40' }}">
-                    <span class="mt-0.5 text-indigo-500 shrink-0">
+                        class="w-full text-start px-4 py-3 hover:bg-gray-50 flex gap-3 {{ $note->read_at ? '' : 'bg-brand-50/40' }}">
+                    <span class="mt-0.5 text-brand-500 shrink-0">
                         <x-icon :name="\App\Support\Notifications::icon($note)" class="w-5 h-5" />
                     </span>
                     <span class="min-w-0">
@@ -70,7 +70,7 @@ new class extends Component {
         </div>
 
         <a href="{{ route('notifications.index') }}" wire:navigate
-           class="block px-4 py-3 text-center text-sm text-indigo-600 hover:bg-gray-50 border-t border-gray-100">
+           class="block px-4 py-3 text-center text-sm text-brand-600 hover:bg-gray-50 border-t border-gray-100">
             {{ __('View all') }}
         </a>
     </div>
