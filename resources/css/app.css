@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PWA / app-shell niceties */
+@layer base {
+    html { -webkit-tap-highlight-color: transparent; }
+    body { overscroll-behavior-y: none; }
+    [x-cloak] { display: none !important; }
+}
+
+@layer utilities {
+    /* Respect device safe areas (notches / home indicator) in standalone mode */
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    .pt-safe { padding-top: env(safe-area-inset-top); }
+    .h-safe-bottom { height: calc(4rem + env(safe-area-inset-bottom)); }
+
+    /* Hide scrollbars on horizontal chip rows */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* Standalone (installed) app: hide any browser-only chrome we add */
+@media (display-mode: standalone) {
+    .hide-in-app { display: none !important; }
+}

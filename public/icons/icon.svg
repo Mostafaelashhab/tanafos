@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="banha.shop">
+  <rect width="512" height="512" rx="112" fill="#4f46e5"/>
+  <!-- Stylised demand mark: a speech/request bubble with a downward "ask" arrow -->
+  <path d="M150 132h212a40 40 0 0 1 40 40v118a40 40 0 0 1-40 40H236l-66 58v-58h-20a40 40 0 0 1-40-40V172a40 40 0 0 1 40-40Z" fill="#ffffff"/>
+  <path d="M256 196v92m0 0-40-40m40 40 40-40" fill="none" stroke="#4f46e5" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

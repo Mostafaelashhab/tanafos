@@ -1,0 +1,21 @@
+{
+    "name": "Tanafos — أنت تطلب والتجار يتنافسون عليك",
+    "short_name": "Tanafos",
+    "description": "سوق الطلب العكسي: انشر طلبك واحصل على عروض من التجار يتنافسون عليك.",
+    "lang": "ar",
+    "dir": "rtl",
+    "start_url": "/dashboard",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#f3f4f6",
+    "theme_color": "#4f46e5",
+    "icons": [
+        {
+            "src": "/icons/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}
